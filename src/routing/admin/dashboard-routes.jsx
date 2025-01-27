@@ -4,7 +4,7 @@ import Dashboard from '../../modules/admin/pages/Dashboard';
 
 const AdminDashboardRoutes = (
     <>
-        <Route path="" element={<Dashboard />} />
+        <Route index element={<Dashboard />} />
         {/* <Route path="users" element={<Users />} /> */}
     </>
 );

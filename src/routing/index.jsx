@@ -32,7 +32,7 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<RootLayout />}>
         {/* Public Routes */}
-        <Route index element={<PublicRoutes />} />
+        {PublicRoutes}
 
         {/* Student Public Routes */}
         <Route path="student" element={<StudentPublicLayout />}>

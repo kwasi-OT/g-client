@@ -5,7 +5,7 @@ import Signup from '../../modules/public-user/stPublic/components/StudentSignupF
 
 const StudentPublicRoutes = (
     <>
-        <Route path="" element={<StudentHome />} />
+        <Route index element={<StudentHome />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
     </>

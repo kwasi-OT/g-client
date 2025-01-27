@@ -4,7 +4,7 @@ import Dashboard from '../../modules/student/pages/Dashboard';
 
 const StudentDashboardRoutes = (
     <>
-        <Route path="" element={<Dashboard />} />
+        <Route index element={<Dashboard />} />
         {/* <Route path="profile" element={<Profile />} /> */}
     </>
 );

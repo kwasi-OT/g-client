@@ -28,4 +28,12 @@ ProtectedRoute.propTypes = {
     redirectPath: PropTypes.string.isRequired,
 };
 
+export const StudentProtectedRoute = () => (
+    <ProtectedRoute allowedRoles={['student']} redirectPath="/student/login" />
+);
+
+export const AdminProtectedRoute = () => (
+    <ProtectedRoute allowedRoles={['admin']} redirectPath="/admin/login" />
+);
+
 export default ProtectedRoute;

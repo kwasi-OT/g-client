@@ -1,10 +1,9 @@
-// import React from 'react'
-import Home from "../../modules/admin/pages/Home"
+import AdminHome from '../../modules/public-user/adPublic/pages/AdminHome'
 
 const AdminPublicLayout = () => {
     return (
         <div>
-            <Home />
+            <AdminHome />
         </div>
     )
 }

@@ -1,7 +1,11 @@
-import Home from "../../modules/public-user/stPublic/pages/Home";
+import StudentHome from "../../modules/public-user/stPublic/pages/StudentHome";
 
-export default function StudentPublicLayout() {
+const StudentPublicLayout = () => {
     return (
-        <Home />
+        <div>
+            <StudentHome />
+        </div>
     )
 }
+
+export default StudentPublicLayout

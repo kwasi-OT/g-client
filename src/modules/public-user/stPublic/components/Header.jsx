@@ -10,13 +10,13 @@ const Header = () => {
             <div className=" w-[80%] mx-auto flex items-center justify-between px-4 ">
                 <div className="flex items-center w-[50%] gap-[3rem]">
                     <img src={LogoImage} alt="Logo" className="w-[8rem] h-[3rem] object-contain" />
-                    <nav className="flex gap-[2.5rem]">
+                    <nav className="flex gap-[2.5rem] text-[1.25rem]">
                         <Link to={StudentPublicRoutes.home}>Home</Link>
                         <Link>Courses</Link>
                     </nav>
                 </div>
                 <div className="flex items-center gap-4 w-[50%] justify-end">
-                    <Link to={StudentPublicRoutes.login} className="flex items-center gap-[0.5rem] text-[var(--primary-blue)] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem]">Login <FiLogIn size='1.5rem' color='var(--primary-blue)'/></Link>
+                    <Link to={StudentPublicRoutes.login} className="flex items-center gap-[0.5rem] text-[var(--primary-blue)] text-[1.25rem] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem]">Login <FiLogIn size='1.5rem' color='var(--primary-blue)'/></Link>
                 </div>
             </div>
         </div>

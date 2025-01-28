@@ -6,7 +6,7 @@ import { FiLogIn } from 'react-icons/fi'
 
 const Header = () => {
     return (
-        <div className="w-full flex flex-col justify-center align-items-center h-[5.5rem] border-b border-gray-200">
+        <div className="w-full flex flex-col justify-center align-items-center h-[6rem] border-b border-gray-200">
             <div className=" w-[80%] mx-auto flex items-center justify-between px-4 ">
                 <div className="flex items-center w-[50%] gap-[3rem]">
                     <img src={LogoImage} alt="Logo" className="w-[8rem] h-[3rem] object-contain" />

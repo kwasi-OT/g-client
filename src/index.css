@@ -15,6 +15,38 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* colors */
+  --bg-white: #fff;
+  --primary-black: #000;
+  --primary-grey: #dedede;
+  --primary-blue: #01589A;
+  --primary-lemon-green: #77C053;
+  --primary-red: #A61D24;
+  --text-grey: #999999;
+  --placeholder-grey: #F5F5F5;
+  --input-bg: #F5F5F5;
+  --input-active-bg: #EDF7E8;
+  --input-border: #999999;
+  --input-error-bg: #F7E9EA;
+
+  /* Font Families */
+  --font-primary: 'Inter', sans-serif;
+  --font-secondary: 'Roboto', sans-serif;
+
+  /* Typography */
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-sm: 0.875rem;
+
+  /* Shadows */
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+  /* Dark mode variables */
+.dark {
+  --color-primary: 96 165 250; /* Lighter blue for dark mode */
+  --color-secondary: 52 211 153; /* Lighter green for dark mode */
+}
 }
 
 

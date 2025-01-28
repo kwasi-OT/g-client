@@ -2,7 +2,7 @@
 
 const Header = () => {
     return (
-        <div>
+        <div className="w-full h-[4rem] border-b border-gray-200">
             <p>Header</p>
         </div>
     )

@@ -21,6 +21,7 @@
   --primary-black: #000;
   --primary-grey: #dedede;
   --primary-blue: #01589A;
+  --logo-blue: #004F7D;
   --primary-lemon-green: #77C053;
   --primary-red: #A61D24;
   --text-grey: #999999;
@@ -85,9 +86,7 @@ button:focus-visible {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
-    color: #747bff;
-  }
+  
   button {
     background-color: #f9f9f9;
   }

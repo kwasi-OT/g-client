@@ -21,6 +21,7 @@ export default {
             'input-active-bg': 'var(--input-active-bg)',
             'input-border': 'var(--input-border)',
             'input-error-bg': 'var(--input-error-bg)',
+            'logo-blue': 'var(--logo-blue)',
         },
         // Custom spacing
         spacing: {

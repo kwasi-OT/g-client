@@ -34,15 +34,15 @@ const Footer = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-between w-[100%] h-[25%] py-10 border-t text-[0.85rem] font-[400] text-[var(--bg-white)]">
+                <div className="flex justify-between w-[100%] h-[25%] py-10 border-t text-[1rem] font-[400] text-[var(--bg-white)]">
                     <div className="flex items-center w-[60%]">
-                        <h3 className="flex items-center gap-[0.5rem]">
+                        <p className="flex items-center gap-[0.5rem]">
                             <span className='text-[1.6rem]'>&copy;</span>
                             copyright 2025 - G-client, All rights reserved
-                        </h3>
+                        </p>
                     </div>
                     <div className="flex items-center justify-end gap-[0.5rem]">
-                        <h3>Back To Top</h3>
+                        <p>Back To Top</p>
                         <BsArrowUpSquare size='1.5rem' />
                     </div>
                 </div>

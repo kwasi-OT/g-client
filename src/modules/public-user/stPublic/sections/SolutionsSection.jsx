@@ -6,7 +6,7 @@ import CCLogo from '../../../../assets/cc-logo.png'
 const SolutionsSection = () => {
 
     return (
-        <div className="flex items-center w-full h-[90vh]">
+        <div className="flex flex-col justify-center items-center w-full h-[90vh]">
             <div className="w-[80%] h-[75%] mx-auto flex flex-col justify-between">
                 <div className="flex flex-col items-center w-[100%]">
                     <h1>Our solutions</h1>

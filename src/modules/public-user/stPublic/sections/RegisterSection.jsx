@@ -2,8 +2,9 @@
 
 const RegisterSection = () => {
     return (
-        <div>
-        
+        <div className='w-full h-[100vh] bg-bg-body'>
+            <div></div>
+            <div></div>
         </div>
     )
 }

@@ -5,7 +5,7 @@ import RegisterSection from "../sections/RegisterSection"
 
 const StudentHome = () => {
     return (
-        <div className="flex flex-col items-center min-h-screen h-fit">
+        <div className="flex flex-col items-center justify-between min-h-screen h-fit">
             <HeroSection />
             <SolutionsSection />
             <StepsSection />

@@ -1,12 +1,32 @@
-// import React from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import StudentPublicRoutes  from '../../../../routing/student/public-routes'
 import LogoImage from '../../../../assets/gclient-logo.png'
 import { FiLogIn } from 'react-icons/fi'
+import AuthModal from '../sections/AuthModal'
+import PropTypes from 'prop-types'
 
 const Header = () => {
+    const [openModal, setOpenModal] = useState(false)
+
+    // toggle modal 
+    const toggleModal = () => {
+        setOpenModal(!openModal)
+    }
+
+    useEffect(() => {
+        window.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') {
+                setOpenModal(false);
+            }
+        })
+    })
+    
+
+    
+
     return (
-        <div className="w-full flex flex-col justify-center align-items-center h-[6rem] border-b border-gray-200">
+        <div className="w-full flex flex-col justify-center align-items-center h-[6rem]">
             <div className=" w-[80%] mx-auto flex items-center justify-between px-4 ">
                 <div className="flex items-center w-[50%] gap-[3rem]">
                     <img src={LogoImage} alt="Logo" className="w-[8rem] h-[3rem] object-contain" />
@@ -16,11 +36,16 @@ const Header = () => {
                     </nav>
                 </div>
                 <div className="flex items-center gap-4 w-[50%] justify-end">
-                    <Link to={StudentPublicRoutes.login} className="flex items-center gap-[0.5rem] text-[var(--primary-blue)] text-[1.25rem] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem]">Login <FiLogIn size='1.5rem' color='var(--primary-blue)'/></Link>
+                    <button className="flex items-center bg-[var(--bg-white)] gap-[0.5rem] text-[var(--primary-blue)] text-[1.25rem] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem] cursor-pointer"  onClick={toggleModal}>Login <FiLogIn size='1.5rem' color='var(--primary-blue)'/></button>
                 </div>
             </div>
+            <AuthModal  isVisible={openModal}/>
         </div>
     )
+}
+
+Header.propTypes = {
+    isVisible: PropTypes.func.isRequired
 }
 
 export default Header

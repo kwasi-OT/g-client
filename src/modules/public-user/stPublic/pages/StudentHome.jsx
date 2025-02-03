@@ -2,7 +2,6 @@ import HeroSection from "../sections/HeroSection"
 import SolutionsSection from "../sections/SolutionsSection"
 import StepsSection from "../sections/StepsSection"
 import RegisterSection from "../sections/RegisterSection"
-import AuthModal from "../sections/AuthModal"
 
 const StudentHome = () => {
     return (
@@ -11,7 +10,6 @@ const StudentHome = () => {
             <SolutionsSection />
             <StepsSection />
             <RegisterSection />
-            <AuthModal />
         </div>
     )
 }

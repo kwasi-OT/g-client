@@ -160,13 +160,13 @@ const FormInput = ({
 FormInput.propTypes = {
     type: PropTypes.oneOf(['text', 'email', 'password', 'select', 'file', 'button', 'textarea']),
     label: PropTypes.string,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     value: PropTypes.oneOfType([
         PropTypes.string, 
         PropTypes.number,
         PropTypes.array
     ]),
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     options: PropTypes.arrayOf(
         PropTypes.shape({
             value: PropTypes.string,

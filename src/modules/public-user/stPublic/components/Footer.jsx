@@ -1,8 +1,17 @@
+// import { useEffect } from 'react'
 import FooterLogo from '../../../../assets/footer-logo.png'
 import { BsArrowUpSquare } from "react-icons/bs"
 import { Link } from 'react-router-dom'
 
 const Footer = () => {
+    
+    const backToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }   
+
     return (
         <div className="w-full h-[16rem] bg-[var(--primary-blue)] p-10">
             <div className="w-[80%] h-[100%] mx-auto flex flex-col justify-between">
@@ -41,7 +50,7 @@ const Footer = () => {
                             copyright 2025 - G-client, All rights reserved
                         </p>
                     </div>
-                    <div className="flex items-center justify-end gap-[0.5rem]">
+                    <div className="flex items-center justify-end gap-[0.5rem] cursor-pointer" onClick={backToTop}>
                         <p>Back To Top</p>
                         <BsArrowUpSquare size='1.5rem' />
                     </div>

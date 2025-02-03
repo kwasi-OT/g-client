@@ -14,6 +14,7 @@ const Header = () => {
         setOpenModal(!openModal)
     }
 
+    // close modal on escape key press
     useEffect(() => {
         window.addEventListener('keydown', (e) => {
             if(e.key === 'Escape') {
@@ -21,9 +22,6 @@ const Header = () => {
             }
         })
     })
-    
-
-    
 
     return (
         <div className="w-full flex flex-col justify-center align-items-center h-[6rem]">

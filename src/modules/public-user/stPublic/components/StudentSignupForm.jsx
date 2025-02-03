@@ -20,9 +20,9 @@ const StudentSignupForm = ({ toggleAuthView }) => {
                 <FormInput type='email' placeholder='Email' icon={EmailIcon} className="w-full py-[0.5rem] px-[2rem] rounded-[0.3rem] box-border"/>
                 <FormInput type='password' placeholder='Password' icon={PasswordIcon} className="w-full py-[0.5rem] px-[2rem] rounded-[0.3rem] box-border"/>
                 <FormInput type='password' placeholder='Password' icon={PasswordIcon} className="w-full py-[0.5rem] px-[2rem] rounded-[0.3rem] box-border"/>
-                <button className="w-full flex items-center justify-center bg-[var(--primary-blue)] text-[var(--bg-white)] py-[0.5rem] rounded-[0.3rem]">
+                <button className="w-full flex items-center justify-center gap-[0.5rem] bg-[var(--primary-blue)] text-[var(--bg-white)] py-[0.5rem] rounded-[0.3rem]">
                     Signup
-                    <MdChevronRight color="var(--bg-white)" size={20}/>
+                    <MdChevronRight color="var(--bg-white)" size={25}/>
                 </button>
                 <p>
                     Already have an account ? 

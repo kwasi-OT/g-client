@@ -3,8 +3,9 @@ import { FcGoogle } from "react-icons/fc";
 import EmailIcon from '../../../../assets/icons/email.svg';
 import PasswordIcon from '../../../../assets/icons/lock.svg';
 import { MdChevronRight } from "react-icons/md";
+import PropTypes from 'prop-types';
 
-const StudentSignupForm = () => {
+const StudentSignupForm = ({ toggleAuthView }) => {
     return (
         <div className=" h-fit flex flex-col items-center justify-center">
             <h2>Signup</h2>
@@ -23,9 +24,17 @@ const StudentSignupForm = () => {
                     Signup
                     <MdChevronRight color="var(--bg-white)" size={20}/>
                 </button>
+                <p>
+                    Already have an account ? 
+                    <span className='text-[var(--primary-blue)] cursor-pointer' onClick={toggleAuthView}> login</span>
+                </p>
             </div>
         </div>
     )
+}
+
+StudentSignupForm.propTypes = {
+    toggleAuthView: PropTypes.func
 }
 
 export default StudentSignupForm

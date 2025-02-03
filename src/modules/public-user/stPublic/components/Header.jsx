@@ -4,7 +4,6 @@ import StudentPublicRoutes  from '../../../../routing/student/public-routes'
 import LogoImage from '../../../../assets/gclient-logo.png'
 import { FiLogIn } from 'react-icons/fi'
 import AuthModal from '../sections/AuthModal'
-import PropTypes from 'prop-types'
 
 const Header = () => {
     const [openModal, setOpenModal] = useState(false)
@@ -34,16 +33,12 @@ const Header = () => {
                     </nav>
                 </div>
                 <div className="flex items-center gap-4 w-[50%] justify-end">
-                    <button className="flex items-center bg-[var(--bg-white)] gap-[0.5rem] text-[var(--primary-blue)] text-[1.25rem] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem] cursor-pointer"  onClick={toggleModal}>Login <FiLogIn size='1.5rem' color='var(--primary-blue)'/></button>
+                    <button className="flex items-center bg-[var(--bg-white)] gap-[0.5rem] text-[var(--primary-blue)] text-[1.25rem] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem] cursor-pointer hover:bg-[var(--primary-blue)] hover:text-[var(--bg-white)]"  onClick={toggleModal}>Login <FiLogIn size='1.5rem' color='var(--primary-blue)' hover='var(--bg-white)'/></button>
                 </div>
             </div>
             <AuthModal  isVisible={openModal}/>
         </div>
     )
-}
-
-Header.propTypes = {
-    isVisible: PropTypes.func.isRequired
 }
 
 export default Header

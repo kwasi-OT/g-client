@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom'
 import StudentPublicRoutes  from '../../../../routing/student/public-routes'
 import LogoImage from '../../../../assets/gclient-logo.png'
 import { FiLogIn } from 'react-icons/fi'
+import { IoIosArrowDown } from "react-icons/io";
 import AuthModal from '../sections/AuthModal'
+import { useSelector } from 'react-redux'
+
 
 const Header = () => {
-    const [openModal, setOpenModal] = useState(false)
+    const [openModal, setOpenModal] = useState(false);
+    const {user} = useSelector((state) => state.user);
 
     // toggle modal 
     const toggleModal = () => {
@@ -33,7 +37,29 @@ const Header = () => {
                     </nav>
                 </div>
                 <div className="flex items-center gap-4 w-[50%] justify-end">
-                    <button className="flex items-center bg-[var(--bg-white)] gap-[0.5rem] text-[var(--primary-blue)] text-[1.25rem] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem] cursor-pointer hover:bg-[var(--primary-blue)] hover:text-[var(--bg-white)]"  onClick={toggleModal}>Login <FiLogIn style={{fontSize: '1.5rem', color: 'var(--primary-blue)hover:color: var(--bg-white)'}}/></button>
+                    {user ? 
+                        (
+                            <div className='flex items-center gap-[2rem] cursor-pointer'>
+                                <div className='flex items-center gap-[1rem]'>
+                                    <div className='rounded-full bg-[var(--primary-blue)] text-[var(--bg-white)] w-[2.5rem] h-[2.5rem] flex items-center justify-center text-[1rem] font-[600]'>
+                                        {/* initials of name */}
+                                        {/* <p>{user.firstname[0]}{user.lastname[0]}</p> */}
+                                        <p>DD</p>
+                                    </div>
+                                    <div className='flex items-center gap-[0.5rem] text-[1rem] font-[400]'>
+                                        <p>Daniel{user.firstname}</p>
+                                        <p>Doe{user.lastname}</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <IoIosArrowDown size={25} className='mt-[0.5rem]'/>
+                                </div>
+                            </div>
+                        ):
+                        (
+                            <button className="flex items-center bg-[var(--bg-white)] gap-[0.5rem] text-[var(--primary-blue)] text-[1.25rem] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem] cursor-pointer hover:bg-[var(--primary-blue)] hover:text-[var(--bg-white)]"  onClick={toggleModal}>Login <FiLogIn style={{fontSize: '1.5rem', color: 'var(--primary-blue)hover:color: var(--bg-white)'}}/></button>
+                        )
+                    }
                 </div>
             </div>
             <AuthModal  isVisible={openModal}/>

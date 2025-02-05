@@ -18,7 +18,7 @@ const StudentLoginForm = ({ toggleAuthView }) => {
     });
     const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
-    const { isLoading, error } = useSelector((state) => state.auth);
+    const { isLoading } = useSelector((state) => state.auth);
     
     // form validation
     const validateForm = () => {
@@ -40,9 +40,9 @@ const StudentLoginForm = ({ toggleAuthView }) => {
     }
 
     // Add error display
-    {error && (
-        <div className="text-red-500 text-sm mb-2">
-            {error}
+    {errors && (
+        <div className="text-[var(--primary-red)] text-[0.5rem]">
+            {errors}
         </div>
     )}
 

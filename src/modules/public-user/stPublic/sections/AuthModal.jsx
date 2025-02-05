@@ -4,7 +4,7 @@ import StudentSignupForm from '../components/StudentSignupForm'
 import PropTypes from 'prop-types'
 
 const AuthModal = ({isVisible}) => {
-    const [isLogin, setIsLogin] = useState(true)
+    const [isLogin, setIsLogin] = useState(true);
     
     if(!isVisible) return null
 

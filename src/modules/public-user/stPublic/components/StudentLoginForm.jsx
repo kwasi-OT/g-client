@@ -18,7 +18,7 @@ const StudentLoginForm = ({ toggleAuthView }) => {
     });
     const [errors, setErrors] = useState({});
     const dispatch = useDispatch();
-    const { isLoading } = useSelector((state) => state.auth);
+    const { isLoading, authError } = useSelector((state) => state.auth);
     
     // form validation
     const validateForm = () => {
@@ -26,7 +26,7 @@ const StudentLoginForm = ({ toggleAuthView }) => {
         if (!formData.email) {
             newErrors.email = 'Email is required';
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Invalid email';
+            newErrors.email = 'Email address is invalid';
         }
 
         if (!formData.password) {
@@ -50,8 +50,19 @@ const StudentLoginForm = ({ toggleAuthView }) => {
     // handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Clear previous errors
+        setErrors({});
+
         if (validateForm()) {
-            dispatch(login(formData));
+            dispatch(login(formData))
+            .unwrap()
+            .then((response) => {
+                console.log('Login successful', response);
+            })
+            .catch((error) => {
+                console.error('Login failed', error);
+            });
         }
     };
 
@@ -83,7 +94,7 @@ const StudentLoginForm = ({ toggleAuthView }) => {
                         <div className="flex items-center gap-[0.5rem]">
                             <p>Or</p>
                         </div>
-                        <div className="flex flex-col gap-[1.5rem]">
+                        <form className="flex flex-col gap-[1.5rem]" onSubmit={handleSubmit}>
                             <FormInput 
                                 type='email' 
                                 placeholder='Email' 
@@ -104,9 +115,15 @@ const StudentLoginForm = ({ toggleAuthView }) => {
                                 name="password"
                                 error={errors.password}
                             />
+                            {/* Global auth error display */}
+                            {authError && (
+                                <div className="text-red-500 text-sm mb-2">
+                                    {authError}
+                                </div>
+                            )}
                             <p className="text-[0.7rem] font-[600] text-[var(--primary-blue)] cursor-pointer hover:underline" onClick={toggleForgotPassword}>Forgot password?</p>
                             <button className="w-full flex items-center justify-center gap-[0.5rem] bg-[var(--primary-blue)] text-[var(--bg-white)] py-[0.5rem] rounded-[0.3rem]" 
-                            onClick={handleSubmit}
+                            type='submit'
                             aria-busy={isLoading}
                             aria-label={isLoading ? "Logging in..." : "Login"}
                             disabled={isLoading}
@@ -131,7 +148,7 @@ const StudentLoginForm = ({ toggleAuthView }) => {
                                 Need to create an account ? 
                                 <span className='text-[var(--primary-blue)] cursor-pointer' onClick={toggleAuthView}> signup</span>
                             </p>
-                        </div>
+                        </form>
                     </div>
                 )
             }

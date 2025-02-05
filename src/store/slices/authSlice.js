@@ -17,7 +17,18 @@ export const login = createAsyncThunk(
                     }
                 }
             );
-            return response.data;
+
+            // Store token securely
+            localStorage.setItem('token', response.data.token);
+
+            return {
+                user: {
+                    user_id: response.data.user_id,
+                    email: response.data.email,
+                    role: response.data.role
+                },
+                token: response.data.token
+            };
         } catch (error) {
             return rejectWithValue(
                 error.response?.data?.message || 'Login failed'
@@ -32,13 +43,19 @@ export const logout = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.post(
-                `${API_BASE_URL}/api/user/auth/logout`, 
+                `${API_BASE_URL}/api/user/auth/logout`, {},
                 {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 }
             );
+
+            // Clear token and user data
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+
             return response.data;
         } catch (error) {
             return rejectWithValue(
@@ -96,6 +113,7 @@ const authSlice = createSlice({
         .addCase(logout.fulfilled, (state) => {
             state.isAuthenticated = false;
             state.user = null;
+            state.token = null;
             state.loading = false;
             state.error = null;
         })

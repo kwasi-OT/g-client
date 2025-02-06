@@ -5,20 +5,25 @@ import LogoImage from '../../../../assets/gclient-logo.png'
 import { FiLogIn } from 'react-icons/fi'
 import { IoIosArrowDown } from "react-icons/io";
 import AuthModal from '../sections/AuthModal'
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchUser } from '../../../../store/slices/userSlice';
-
+import { useSelector } from 'react-redux'
 
 const Header = () => {
     const [openModal, setOpenModal] = useState(false);
-    const dispatch = useDispatch();
     const {user} = useSelector((state) => state.auth);
+
     console.log('Header User:', user);
 
     // toggle modal 
     const toggleModal = () => {
         setOpenModal(!openModal)
     }
+
+    // close modal if user authenticated
+    useEffect(() => {
+        if(user) {
+            setOpenModal(false);
+        }
+    }, [user])
 
     // close modal on escape key press
     useEffect(() => {
@@ -27,13 +32,7 @@ const Header = () => {
                 setOpenModal(false);
             }
         })
-    });
-
-    useEffect(() => {
-        if (user && user.user_id) {
-            dispatch(fetchUser(user.user_id));
-        }
-    },[dispatch, user]);
+    })
 
     return (
         <div className="w-full flex flex-col justify-center align-items-center h-[6rem]">

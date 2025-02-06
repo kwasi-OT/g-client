@@ -18,17 +18,21 @@ export const login = createAsyncThunk(
                 }
             );
 
-            // Store token securely
-            localStorage.setItem('token', response.data.token);
+            // Check for successful login
+            if (!response.data.success) {
+                return rejectWithValue(response.data.message || 'Login failed');
+            }
 
-            return {
-                user: {
-                    user_id: response.data.user_id,
-                    email: response.data.email,
-                    role: response.data.role
-                },
-                token: response.data.token
-            };
+            const { user } = response.data;
+
+            // Store user info in localStorage
+            localStorage.setItem('user', JSON.stringify({
+                _id: user._id,
+                email: user.email,
+                isVerified: user.isVerified
+            }));
+
+            return response.data;
         } catch (error) {
             return rejectWithValue(
                 error.response?.data?.message || 'Login failed'
@@ -47,13 +51,10 @@ export const logout = createAsyncThunk(
                 {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 }
             );
-
-            // Clear token and user data
-            localStorage.removeItem('token');
+            // Clear user info from localStorage
             localStorage.removeItem('user');
 
             return response.data;
@@ -105,6 +106,7 @@ const authSlice = createSlice({
             state.loading = false;
             state.error = action.payload || 'Login failed';
             state.isAuthenticated = false;
+            state.user = null;
         })
         .addCase(logout.pending, (state) => {
             state.loading = true;
@@ -121,6 +123,8 @@ const authSlice = createSlice({
             console.error('Logout Rejected:', action.payload);
             state.loading = false;
             state.error = action.payload || 'Logout failed';
+            state.isAuthenticated = false;
+            state.user = null;
         })
     }
 });

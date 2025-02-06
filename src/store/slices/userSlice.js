@@ -3,22 +3,27 @@ import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
-// Thunk to fetch user details
-export const fetchUser = createAsyncThunk(
-    'user/fetchUserDetail',
-    async (user_id, { rejectWithValue }) => {
+// Thunk to fetch user learner details
+export const fetchUserDetails = createAsyncThunk(
+    'user/fetchDetails',
+    async (id, { rejectWithValue }) => {
         try {
             const response = await axios.get(
-                `${API_BASE_URL}/api/learners/${user_id}`,
+                `${API_BASE_URL}/api/learners`,
                 {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 }
             );
+
+            if (response.data.success !== true){
+                return rejectWithValue(response.data.message)
+            }
+
             return response.data;
         } catch (error) {
-            console.error('Fetch User Error:', {
+            console.error('Fetch User Details Error:', {
                 message: error.message,
                 response: error.response?.data
             });
@@ -32,10 +37,10 @@ export const fetchUser = createAsyncThunk(
 // Thunk to update user profile
 export const updateUserProfile = createAsyncThunk(
     'user/updateUserDetails',
-    async ({ user_id, userData }, { rejectWithValue }) => {
+    async ({ _id, userData }, { rejectWithValue }) => {
         try {
             const response = await axios.put(
-                `${API_BASE_URL}/api/learners/${user_id}`,
+                `${API_BASE_URL}/api/learners/${_id}`,
                 userData,
                 {
                     headers: {
@@ -66,18 +71,24 @@ const userSlice = createSlice({
             state.status = 'idle';
             state.error = null;
         },
-        clearUserError: (state) => {
+        // Clear user details on logout
+        clearUserDetails: (state) => {
+            state.userDetails = null;
+            state.isProfileComplete = false;
             state.error = null;
+            state.loading = false;
+            state.error = null;
+            localStorage.removeItem('userDetails');
         }
     },
     extraReducers: (builder) => {
         // Fetch User Details
         builder
-            .addCase(fetchUser.pending, (state) => {
+            .addCase(fetchUserDetails.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(fetchUser.fulfilled, (state, action) => {
+            .addCase(fetchUserDetails.fulfilled, (state, action) => {
                 console.log('User profile:', action.payload);
                 state.userDetails = action.payload;
                 state.loading = false;
@@ -89,11 +100,12 @@ const userSlice = createSlice({
                     action.payload.email
                 );
             })
-            .addCase(fetchUser.rejected, (state, action) => {
+            .addCase(fetchUserDetails.rejected, (state, action) => {
                 console.log('Fetch User Rejected:', action.payload);
                 state.loading = false;
                 state.error = action.error.message;
                 state.userDetails = null;
+                state.isProfileComplete = false;
             })
             // Update User Profile
             .addCase(updateUserProfile.pending, (state) => {
@@ -116,5 +128,5 @@ const userSlice = createSlice({
     }
 })
 
-export const { clearUserError } = userSlice.actions;
+export const { clearUserDetails } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,10 +1,11 @@
-import { Route } from 'react-router-dom';
-import AdminHome from '../../modules/public-user/adPublic/pages/AdminHome';
+import { lazy } from 'react'; 
 
-const AdminPublicRoutes = (
-    <>
-        <Route index element={<AdminHome />} />
-    </>
-);
+const AdminHome = lazy(() => import('../../modules/public-user/adPublic/pages/AdminHome'));
 
-export default AdminPublicRoutes;
+export const AdminPublicRoutes = [
+    {
+        index: true,
+        element: <AdminHome />
+    }
+];
+

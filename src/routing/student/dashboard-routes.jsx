@@ -1,12 +1,15 @@
-import { Route } from 'react-router-dom';
-import Dashboard from '../../modules/student/pages/Dashboard';
-// import Profile from '../../modules/student/pages/Profile';
+import { lazy } from 'react';
 
-const StudentDashboardRoutes = (
-    <>
-        <Route index element={<Dashboard />} />
-        {/* <Route path="profile" element={<Profile />} /> */}
-    </>
-);
+const Dashboard = lazy(() => import('../../modules/student/pages/Dashboard'));
+// const Profile = lazy(() => import('../../modules/student/pages/Profile'));
 
-export default StudentDashboardRoutes;
+export const StudentDashboardRoutes = [
+    {
+        path: 'dashboard',
+        element: <Dashboard />
+    },
+    // {
+    //     path: 'profile',
+    //     element: <Profile />
+    // }
+];

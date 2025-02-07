@@ -1,14 +1,21 @@
-import { Route } from 'react-router-dom';
-import StudentHome from '../../modules/public-user/stPublic/pages/StudentHome';
-import Login from '../../modules/public-user/stPublic/components/StudentLoginForm';
-import Signup from '../../modules/public-user/stPublic/components/StudentSignupForm';
+import { lazy } from 'react';
 
-const StudentPublicRoutes = (
-    <>
-        <Route index element={<StudentHome />} />
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<Signup />} />
-    </>
-);
+const StudentHome = lazy(() => import('../../modules/public-user/stPublic/pages/StudentHome'));
+const Login = lazy(() => import('../../modules/public-user/stPublic/components/StudentLoginForm'));
+const Signup = lazy(() => import('../../modules/public-user/stPublic/components/StudentSignupForm'));
 
-export default StudentPublicRoutes;
+export const StudentPublicRoutes = [
+    {
+        index: true,
+        element: <StudentHome />
+    },
+    {
+        path: '/student/login',
+        element: <Login />
+    },
+    {
+        path: '/student/signup',
+        element: <Signup />
+    },
+    
+];

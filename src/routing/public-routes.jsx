@@ -1,17 +1,15 @@
+import { lazy } from 'react';
 
-import { Route } from 'react-router-dom';
-import Home from '../modules/public-user/Home';
-import AdminHome from '../modules/public-user/adPublic/pages/AdminHome';
-import Page404 from '../modules/public-user/Page404';
-import UnAuthorizedPage from '../modules/public-user/UnAuthorizedPage';
+const Home = lazy(() => import('../modules/public-user/Home'));
+const Page404 = lazy(() => import('../modules/public-user/Page404'));
 
-const PublicRoutes = (
-    <>
-        <Route index element={<Home />} />
-        <Route path="admin" element={<AdminHome />} />
-        <Route path="unauthorized" element={<UnAuthorizedPage />} />
-        <Route path="*" element={<Page404 />} />
-    </>
-);
-
-export default PublicRoutes;
+export const PublicRoutes = [
+    {
+        index: true,
+        element: <Home />
+    },
+    {
+        path: '*',
+        element: <Page404 />
+    }
+];

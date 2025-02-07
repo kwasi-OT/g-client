@@ -1,39 +1,54 @@
-// import React from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { ROUTES, USER_ROLES } from '../routing/routes';
 import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ 
-    allowedRoles = [], 
-    redirectPath = '/login' 
-    }) => {
-    const { isAuthenticated, user } = useSelector((state) => state.auth);
+    children, 
+    allowedRoles = [USER_ROLES.STUDENT, USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN], 
+    redirectPath = ROUTES.COMMON.LOGIN 
+}) => {
+    const location = useLocation();
+    const { user, isAuthenticated } = useSelector((state) => state.auth);
 
-    // Check if user is authenticated
+    // Not authenticated
     if (!isAuthenticated) {
-        return <Navigate to={redirectPath} replace />;
+        return <Navigate 
+            to={redirectPath} 
+            state={{ from: location }} 
+            replace 
+        />;
     }
 
-    // Check if user has required role
-    if (allowedRoles.length > 0 && !allowedRoles.includes(user?.role)) {
-        return <Navigate to="/unauthorized" replace />;
+    // Check user role
+    if (!allowedRoles.includes(user?.role)) {
+        // Redirect to unauthorized page or dashboard based on user's role
+        switch(user?.role) {
+            case USER_ROLES.STUDENT:
+                return <Navigate to={ROUTES.STUDENT.DASHBOARD} replace />;
+            case USER_ROLES.ADMIN:
+                return <Navigate to={ROUTES.ADMIN.DASHBOARD} replace />;
+            default:
+                return <Navigate to={ROUTES.COMMON.HOME} replace />;
+        }
     }
 
-    // Render child routes if authenticated and authorized
-    return <Outlet />;
+    // Check email verification if required
+    if (!user?.isVerified) {
+        return <Navigate 
+            to="/verify-email" 
+            state={{ from: location }} 
+            replace 
+        />;
+    }
+
+    return children;
 };
 
 ProtectedRoute.propTypes = {
-    allowedRoles: PropTypes.arrayOf(PropTypes.string).isRequired,
-    redirectPath: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    allowedRoles: PropTypes.arrayOf(PropTypes.string),
+    redirectPath: PropTypes.string
 };
-
-export const StudentProtectedRoute = () => (
-    <ProtectedRoute allowedRoles={['student']} redirectPath="/student/login" />
-);
-
-export const AdminProtectedRoute = () => (
-    <ProtectedRoute allowedRoles={['admin']} redirectPath="/admin/login" />
-);
 
 export default ProtectedRoute;

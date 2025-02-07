@@ -1,69 +1,96 @@
-import { 
-    createBrowserRouter, 
-    createRoutesFromElements, 
-    Route
-} from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { Suspense } from 'react';
 
 // Layouts
 import RootLayout from '../layouts/RootLayout';
-import StudentPublicLayout from '../layouts/student/PublicLayout';
-import AdminPublicLayout from '../layouts/admin/PublicLayout';
+// import StudentPublicLayout from '../layouts/student/PublicLayout';
 import StudentDashboardLayout from '../layouts/student/DashboardLayout';
 import AdminDashboardLayout from '../layouts/admin/DashboardLayout';
 
-// Routes
-import PublicRoutes from './public-routes';
-import StudentPublicRoutes from './student/public-routes';
-import AdminPublicRoutes from './admin/public-routes';
-import StudentDashboardRoutes from './student/dashboard-routes';
-import AdminDashboardRoutes from './admin/dashboard-routes';
+// Route Components
+import { Blocks } from 'react-loader-spinner'
 
-// Protected Route
-import { 
-    StudentProtectedRoute, 
-    AdminProtectedRoute 
-} from '../routing/protected-routes';
+// Protected Routes
+import ProtectedRoute from './protected-routes';
 
-// Common pages
-import Page404 from '../modules/public-user/Page404';
-import UnAuthorizedPage from '../modules/public-user/UnAuthorizedPage';
+// Public Routes
+import { PublicRoutes } from './public-routes';
 
-const router = createBrowserRouter(
-    createRoutesFromElements(
-        <Route path="/" element={<RootLayout />}>
-        {/* Public Routes */}
-        {PublicRoutes}
+// Module-specific Routes
+import { StudentPublicRoutes } from './student/public-routes';
+import { StudentDashboardRoutes } from './student/dashboard-routes';
+import { AdminPublicRoutes } from './admin/public-routes';
+import { AdminDashboardRoutes } from './admin/dashboard-routes';
 
-        {/* Student Public Routes */}
-        <Route path="student" element={<StudentPublicLayout />}>
-            {StudentPublicRoutes}
-        </Route>
+// User Roles
+import { USER_ROLES } from './routes';
 
-        {/* Admin Public Routes */}
-        <Route path="admin" element={<AdminPublicLayout />}>
-            {AdminPublicRoutes}
-        </Route>
-
-        {/* Student Dashboard - Protected */}
-        <Route element={<StudentProtectedRoute />}>
-            <Route path="student/dashboard" element={<StudentDashboardLayout />}>
-            {StudentDashboardRoutes}
-            </Route>
-        </Route>
-        
-        {/* Admin Dashboard - Protected */}
-        <Route element={<AdminProtectedRoute />}>
-            <Route path="admin/dashboard" element={<AdminDashboardLayout />}>
-            {AdminDashboardRoutes}
-            </Route>
-        </Route>
-
-        {/* 404 Page */}
-        <Route path="unauthorized" element={<UnAuthorizedPage />} />
-        <Route path="*" element={<Page404 />} />
-        </Route>
-    )
-);
-
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <RootLayout />,
+        children: [
+            ...PublicRoutes,
+            {
+                path: 'student',
+                element: (
+                    <ProtectedRoute allowedRoles={[USER_ROLES.STUDENT]}>
+                        <StudentDashboardLayout />
+                    </ProtectedRoute>
+                ),
+                children: [
+                    ...StudentPublicRoutes,
+                    ...StudentDashboardRoutes.map(route => ({
+                        ...route,
+                        element: (
+                            <Suspense fallback={<Blocks
+                                height="80"
+                                width="80"
+                                color="#4fa94d"
+                                ariaLabel="blocks-loading"
+                                wrapperStyle={{}}
+                                wrapperClass="blocks-wrapper"
+                                visible={true} />}
+                            >
+                                {route.element}
+                            </Suspense>
+                        )
+                    }))
+                ]
+            },
+            {
+                path: 'admin',
+                element: (
+                    <ProtectedRoute allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN]}>
+                        <AdminDashboardLayout />
+                    </ProtectedRoute>
+                ),
+                children: [
+                    ...AdminPublicRoutes,
+                    ...AdminDashboardRoutes.map(route => ({
+                        ...route,
+                        element: (
+                            <Suspense fallback={<Blocks
+                                height="80"
+                                width="80"
+                                color="#4fa94d"
+                                ariaLabel="blocks-loading"
+                                wrapperStyle={{}}
+                                wrapperClass="blocks-wrapper"
+                                visible={true} />}
+                            >
+                                {route.element}
+                            </Suspense>
+                        )
+                    }))
+                ]
+            },
+            {
+                path: '*',
+                element: <Navigate to="/" replace />
+            }
+        ]
+    }
+]);
 
 export default router;

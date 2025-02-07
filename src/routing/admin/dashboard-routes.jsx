@@ -1,12 +1,15 @@
-import { Route } from 'react-router-dom';
-import Dashboard from '../../modules/admin/pages/Dashboard';
-// import Users from '../../modules/admin/pages/Users';
+import { lazy } from 'react';
 
-const AdminDashboardRoutes = (
-    <>
-        <Route index element={<Dashboard />} />
-        {/* <Route path="users" element={<Users />} /> */}
-    </>
-);
+const Dashboard = lazy(() => import('../../modules/admin/pages/Dashboard'));
+// const UserManagement = lazy(() => import('../../modules/admin/pages/UserManagement'));
 
-export default AdminDashboardRoutes;
+export const AdminDashboardRoutes = [
+    {
+        path: '/admin/dashboard',
+        element: <Dashboard />
+    },
+    // {
+    //     path: 'users',
+    //     element: <UserManagement />
+    // }
+];

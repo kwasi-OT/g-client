@@ -10,11 +10,11 @@ export const StudentPublicRoutes = [
         element: <StudentHome />
     },
     {
-        path: '/student/login',
+        path: 'login',
         element: <Login />
     },
     {
-        path: '/student/signup',
+        path: 'signup',
         element: <Signup />
     },
     

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { USER_ROLES } from '../../routing/routes';
 
 const API_BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -10,29 +11,27 @@ export const login = createAsyncThunk(
         try {
             const response = await axios.post(
                 `${API_BASE_URL}/api/user/auth/signin`, 
-                credentials, 
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
+                credentials);
 
-            // Check for successful login
-            if (!response.data.success) {
-                return rejectWithValue(response.data.message || 'Login failed');
-            }
+            // Determine user role based on email or other criteria
+            const userRole = determineUserRole(response.data.user);
+            
+            // Prepare user data with role
+            const userWithRole = {
+                ...response.data.user,
+                role: userRole
+            };
 
-            const { user } = response.data;
-
-            // Store user info in localStorage
+            // Store user info in localStorage with role
             localStorage.setItem('user', JSON.stringify({
-                _id: user._id,
-                email: user.email,
-                isVerified: user.isVerified
+                ...userWithRole,
+                isVerified: userWithRole.isVerified
             }));
 
-            return response.data;
+            return {
+                ...response.data,
+                user: userWithRole
+            };
         } catch (error) {
             return rejectWithValue(
                 error.response?.data?.message || 'Login failed'
@@ -40,6 +39,22 @@ export const login = createAsyncThunk(
         }
     }
 );
+
+// Role determination function
+const determineUserRole = (user) => {
+    // Default to student role
+    if (!user.role) {
+        // Add role determination logic
+        if (user.email.includes('@student.')) {
+            return USER_ROLES.STUDENT;
+        }
+        if (user.email.includes('@admin.')) {
+            return USER_ROLES.ADMIN;
+        }
+        return USER_ROLES.STUDENT;
+    }
+    return user.role;
+};
 
 // logout thunk for user
 export const logout = createAsyncThunk(
@@ -72,21 +87,20 @@ const authSlice = createSlice({
         isAuthenticated: false,
         user: null,
         loading: false,
-        error: null
+        error: null,
+        userRole: null
     },
     reducers: {
-        login: (state, action) => {
-        state.isAuthenticated = true;
-        state.user = action.payload.user;
-        state.loading = false;
-        state.error = null;
-        },
-        logout: (state) => {
-        state.isAuthenticated = false;
-        state.user = null;
-        state.loading = false;
-        state.error = null;
-        },
+        setUserRole: (state, action) => {
+            state.userRole = action.payload;
+            
+            // Update localStorage
+            const storedUser = JSON.parse(localStorage.getItem('user'));
+            if (storedUser) {
+                storedUser.role = action.payload;
+                localStorage.setItem('user', JSON.stringify(storedUser));
+            }
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -95,11 +109,18 @@ const authSlice = createSlice({
         state.error = null;
         })
         .addCase(login.fulfilled, (state, action) => {
-            console.log('Login Fulfilled:', action.payload);
             state.isAuthenticated = true;
             state.user = action.payload.user;
             state.loading = false;
             state.error = null;
+            state.userRole = action.payload.user?.role || USER_ROLES.STUDENT;
+
+            // Debug logging
+            console.log('Login Fulfilled:', {
+                isAuthenticated: state.isAuthenticated,
+                user: state.user,
+                userRole: state.userRole
+            });
         })
         .addCase(login.rejected, (state, action) => {
             console.error('Login Rejected:', action.payload);
@@ -107,6 +128,7 @@ const authSlice = createSlice({
             state.error = action.payload || 'Login failed';
             state.isAuthenticated = false;
             state.user = null;
+            state.userRole = null;
         })
         .addCase(logout.pending, (state) => {
             state.loading = true;
@@ -115,9 +137,9 @@ const authSlice = createSlice({
         .addCase(logout.fulfilled, (state) => {
             state.isAuthenticated = false;
             state.user = null;
-            state.token = null;
             state.loading = false;
             state.error = null;
+            state.userRole = null;
         })
         .addCase(logout.rejected, (state, action) => {
             console.error('Logout Rejected:', action.payload);
@@ -125,9 +147,10 @@ const authSlice = createSlice({
             state.error = action.payload || 'Logout failed';
             state.isAuthenticated = false;
             state.user = null;
+            state.userRole = null;
         })
     }
 });
 
-// export const { logout } = authSlice.actions;
+export const { setUserRole } = authSlice.actions;
 export default authSlice.reducer;

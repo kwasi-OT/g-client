@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 
 // Layouts
 import RootLayout from '../layouts/RootLayout';
@@ -17,13 +17,14 @@ import ProtectedRoute from './protected-routes';
 import { PublicRoutes } from './public-routes';
 
 // Module-specific Routes
-import { StudentPublicRoutes } from './student/public-routes';
-import { StudentDashboardRoutes } from './student/dashboard-routes';
+// import { StudentPublicRoutes } from './student/public-routes';
+// import { StudentDashboardRoutes } from './student/dashboard-routes';
 import { AdminPublicRoutes } from './admin/public-routes';
 import { AdminDashboardRoutes } from './admin/dashboard-routes';
 
 // User Roles
-import { USER_ROLES } from './routes';
+import { USER_ROLES, ROUTES } from './routes';
+const Dashboard = lazy(() => import('../modules/student/pages/Dashboard'));
 
 const router = createBrowserRouter([
     {
@@ -39,23 +40,28 @@ const router = createBrowserRouter([
                     </ProtectedRoute>
                 ),
                 children: [
-                    ...StudentPublicRoutes,
-                    ...StudentDashboardRoutes.map(route => ({
-                        ...route,
+                    {
+                        path: 'dashboard',
                         element: (
-                            <Suspense fallback={<Blocks
-                                height="80"
-                                width="80"
-                                color="#4fa94d"
-                                ariaLabel="blocks-loading"
-                                wrapperStyle={{}}
-                                wrapperClass="blocks-wrapper"
-                                visible={true} />}
-                            >
-                                {route.element}
+                            <Suspense fallback={
+                                <Blocks
+                                    height="80"
+                                    width="80"
+                                    color="#4fa94d"
+                                    ariaLabel="blocks-loading"
+                                    wrapperStyle={{ 
+                                        justifyContent: 'center', 
+                                        alignItems: 'center', 
+                                        height: '100vh' 
+                                    }}
+                                    wrapperClass="flex justify-center items-center h-screen"
+                                    visible={true} 
+                                />
+                            }>
+                                <Dashboard />
                             </Suspense>
                         )
-                    }))
+                    }
                 ]
             },
             {
@@ -75,8 +81,8 @@ const router = createBrowserRouter([
                                 width="80"
                                 color="#4fa94d"
                                 ariaLabel="blocks-loading"
-                                wrapperStyle={{}}
-                                wrapperClass="blocks-wrapper"
+                                wrapperStyle={{ justifyContent: 'center', alignItems: 'center', height: '100vh' }}
+                                wrapperClass="flex justify-center items-center h-screen"
                                 visible={true} />}
                             >
                                 {route.element}
@@ -87,7 +93,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '*',
-                element: <Navigate to="/" replace />
+                element: <Navigate to={ROUTES.COMMON.HOME} replace />
             }
         ]
     }

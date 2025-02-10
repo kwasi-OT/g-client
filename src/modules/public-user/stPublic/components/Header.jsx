@@ -5,19 +5,33 @@ import LogoImage from '../../../../assets/gclient-logo.png'
 import { FiLogIn } from 'react-icons/fi'
 import { IoIosArrowDown } from "react-icons/io";
 import AuthModal from '../sections/AuthModal'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { logout } from '../../../../store/slices/authSlice'
 import Modal from '../../../../utils/Modal'
 import { PiGraduationCapThin } from "react-icons/pi";
+import { toast, ToastContainer } from 'react-toastify';
+import { Blocks } from 'react-loader-spinner'
+import { useSelector } from 'react-redux'
 
 const Header = () => {
     const [openModal, setOpenModal] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
-    const {user} = useSelector((state) => state.auth);
+    const { isAuthenticated } = useSelector((state) => state.auth);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    // Retrieve user from localStorage with error handling
+    const user = (() => {
+        try {
+            return JSON.parse(localStorage.getItem('user'));
+        } catch (error) {
+            console.error('Error parsing user from localStorage:', error);
+            return null;
+        }
+    })();
+
     console.log('Header User:', user);
+    console.log('Is Authenticated:', isAuthenticated);
 
     // toggle modal 
     const toggleModal = () => {
@@ -26,10 +40,10 @@ const Header = () => {
 
     // close modal if user authenticated
     useEffect(() => {
-        if(user) {
+        if(isAuthenticated && user) {
             setOpenModal(false);
         }
-    }, [user])
+    }, [user, isAuthenticated])
 
     // close modal on escape key press
     useEffect(() => {
@@ -54,15 +68,41 @@ const Header = () => {
 
     // navigate to student dashboard
     const navigateToDashboard = () => {
-        navigate(ROUTES.STUDENT.DASHBOARD);
+        console.group('Navigate to Dashboard Debug');
+        console.log('User:', user);
+        console.log('Is Authenticated:', isAuthenticated);
+        console.log('Attempting to navigate to:', ROUTES.STUDENT.DASHBOARD);
+
+        if (isAuthenticated && user) {
+            try {
+                navigate(ROUTES.STUDENT.DASHBOARD);
+                console.log('Navigation successful');
+            } catch (error) {
+                console.error('Navigation error:', error);
+                toast.error('Navigation failed');
+            }
+        } else {
+            console.warn('Cannot navigate: Not authenticated or no user');
+            toast.error('Please log in to access the dashboard');
+        }
+        console.groupEnd();
         setOpenMenu(false);
     }
 
-    // handle logout
+    // handle logout, display toast and run loader
     const handleLogout = () => {
+        const notify = () => toast.success('Logout successful');
         dispatch(logout())
             .unwrap()
             .then(() => {
+                notify();
+                <Blocks  height="80"
+                width="80"
+                color="#4fa94d"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{ justifyContent: 'center', alignItems: 'center', height: '100vh' }}
+                wrapperClass="flex justify-center items-center h-screen"
+                visible={true} />
                 navigate(ROUTES.COMMON.HOME);
                 setOpenMenu(false);
             })
@@ -73,6 +113,18 @@ const Header = () => {
 
     return (
         <div className="w-full flex flex-col justify-center align-items-center h-[6rem]">
+            <ToastContainer 
+                position="top-center"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <div className=" w-[80%] mx-auto flex items-center justify-between px-4 ">
                 <div className="flex items-center w-[50%] gap-[3rem]">
                     <img src={LogoImage} alt="Logo" className="w-[8rem] h-[3rem] object-contain" />
@@ -110,7 +162,7 @@ const Header = () => {
             <AuthModal  isVisible={openModal}/>
             <Modal 
                 isOpen={openMenu} 
-                onClose={setOpenMenu}
+                onClose={() => setOpenMenu(false)}
                 size='md'
                 >
                     <div className='fixed top-[14.8%] left-[75.5%] z-[1] w-[14%] h-fit bg-[var(--bg-white)] mx-auto mt-6 border border-[var(--primary-blue)] rounded-[0.3rem] flex flex-col justify-center items-start'>

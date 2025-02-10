@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../../../store/slices/authSlice';
 import { Blocks } from 'react-loader-spinner';
+import { toast, ToastContainer } from 'react-toastify';
 
 const StudentLoginForm = ({ toggleAuthView }) => {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
@@ -55,13 +56,16 @@ const StudentLoginForm = ({ toggleAuthView }) => {
         setErrors({});
 
         if (validateForm()) {
+            const notify = () => toast.success('Login successful');
             dispatch(login(formData))
             .unwrap()
             .then((response) => {
                 console.log('Login successful', response);
+                notify();
             })
             .catch((error) => {
                 console.error('Login failed', error);
+                toast.error('Login failed');
             });
         }
     };
@@ -130,12 +134,12 @@ const StudentLoginForm = ({ toggleAuthView }) => {
                             >
                                 {isLoading ? 
                                     (<Blocks
-                                        visible={true}
-                                        height="24"
-                                        width="24"
-                                        ariaLabel="Loading"
-                                        color='var(--bg-white)'
-                                        wrapperClass="flex items-center justify-center"
+                                        height="80"
+                                width="80"
+                                color="#4fa94d"
+                                ariaLabel="blocks-loading"
+                                wrapperStyle={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}
+                                wrapperClass="flex justify-center items-center h-[100%]"
                                     />
                                 ):(
                                     <>
@@ -149,6 +153,27 @@ const StudentLoginForm = ({ toggleAuthView }) => {
                                 <span className='text-[var(--primary-blue)] cursor-pointer' onClick={toggleAuthView}> signup</span>
                             </p>
                         </form>
+                    </div>
+                )
+            }
+            {
+                isLoading && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                        <div className="flex items-center justify-center">
+                            <div className="animate-spin rounded-full border-t-2 border-b-2 border-gray-900 h-12 w-12"></div>
+                        </div>
+                        <ToastContainer
+                            position="top-center"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick={false}
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                        />
                     </div>
                 )
             }

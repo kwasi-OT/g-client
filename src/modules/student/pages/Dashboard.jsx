@@ -11,7 +11,7 @@ const Dashboard = () => {
                 </div>
             </div>
             <div className="bottom flex flex-col justify-center items-center w-[100%] mx-auto h-[70%] bg-[var(--bg-white)]">
-                <div className="content fixed top-[25%] w-[80%] mx-auto h-[100%] bg-[var(--bg-white)]">
+                <div className="content absolute top-[25%] w-[80%] mx-auto h-fit bg-[var(--bg-white)]">
                     <h1>Student Dashboard Page</h1>
                 </div>
             </div>

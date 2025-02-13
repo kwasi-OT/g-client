@@ -10,8 +10,8 @@ const RootLayout = () => {
                 width="80"
                 color="#4fa94d"
                 ariaLabel="blocks-loading"
-                wrapperStyle={{ justifyContent: 'center', alignItems: 'center', height: '100vh' }}
-                wrapperClass="flex justify-center items-center h-screen"
+                wrapperStyle={{ justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100%' }}
+                wrapperClass="flex justify-center items-center h-screen w-full"
                 visible={true}
             />}>
                 <main className="flex-grow">

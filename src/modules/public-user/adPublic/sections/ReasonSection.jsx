@@ -6,9 +6,9 @@ const ReasonSection = () => {
     return (
         <div className="w-full h-[30.5rem] bg-[var(--bg-white)] pt-[2%] pb-[3%] flex flex-col items-center justify-center">
             <div className="w-[80%] h-[20%] flex flex-col items-center justify-center">
-                <h2 className='text-[var(--inst-hero-text-h1)] text-[2rem]'>So many reasons to start with us</h2>
+                <h2 className='text-[var(--inst-hero-text-h1)] text-[3rem]'>So many reasons to start with us</h2>
             </div>
-            <div className="w-[80%] h-[80%] flex items-center justify-between">
+            <div className="w-[70%] h-[80%] flex items-center justify-between">
                 <div className="w-[20%] h-[100%] flex flex-col items-center justify-center">
                     <img src={TeachImg} alt="teach your way" className='w-[50%]'/>
                     <h3>Teach your way</h3>

@@ -1,6 +1,7 @@
 import HeroSection from "../sections/HeroSection"
 import ReasonSection from "../sections/ReasonSection"
 import MetricSection from "../sections/MetricSection"
+import HowSection from "../sections/HowSection"
 
 const InstructorHome = () => {
     return (
@@ -8,6 +9,7 @@ const InstructorHome = () => {
             <HeroSection />
             <ReasonSection />
             <MetricSection />
+            <HowSection />
         </div>
     )
 }

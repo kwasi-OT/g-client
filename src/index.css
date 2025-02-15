@@ -32,6 +32,9 @@
   --input-border: #E6E6E6;
   --input-error-bg: #F7E9EA;
   --input-upload-bg: #E6E6E6;
+  --inst-hero-bg: #cecdcc;
+  --inst-hero-text-h1: #303141;
+  --inst-hero-text-p: #303762;
 
   /* Font Families */
   --font-primary: 'Inter', sans-serif;

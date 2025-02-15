@@ -15,8 +15,8 @@ const FormInput = ({
     rows = 7,
     icon = null
 }) => {
-    const baseInputClasses = "w-full px-[12px] py-[8px] bg-[var(--input-bg)] text-[var(--text-grey)] placeholder-[var(--text-grey)] text-[1rem] font-[400] border border-[var(--input-border)] rounded-[0.3rem]  focus:outline-none focus:ring-2 focus:ring-blue-500 box-border";
-    const errorClasses = "border-red-500 text-red-900";
+    const baseInputClasses = "w-full px-[12px] py-[8px] bg-[var(--input-bg)] text-[var(--text-grey)] placeholder-[var(--text-grey)] text-[1rem] font-[400] border-none outline-none active:bg-[var(--input-active-bg)] flex items-center";
+    const errorClasses = "bg-[var(--input-error-bg)] text-[0.5rem] font-[400] text-[var(--primary-red)]";
 
     const renderInput = () => {
         const inputWithIcon = (inputElement) => (
@@ -82,8 +82,8 @@ const FormInput = ({
                                 </option>
                             ))}
                         </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[var(--text-grey)]">
-                            <svg className="fill-current h-[0.5rem] w-[0.5rem]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <div className="pointer-events-none absolute inset-y-[0] right-[0] flex items-center px-2 text-[var(--text-grey)]">
+                            <svg className="fill-current h-[1.2rem] w-[1.2rem]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                 <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                             </svg>
                         </div>

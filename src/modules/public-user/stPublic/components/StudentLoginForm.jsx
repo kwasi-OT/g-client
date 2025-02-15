@@ -89,39 +89,49 @@ const StudentLoginForm = ({ toggleAuthView }) => {
                 (
                     <ForgotPassword />
                 ) : (
-                    <div className=" h-fit flex flex-col items-center justify-center">
+                    <div className="w-100% h-fit flex flex-col items-center justify-center">
                         <h2>Login</h2>
-                        <div className="w-full flex items-center justify-center gap-[0.5rem] border border-[var(--primary-blue)] px-[2rem]  rounded-[0.3rem] cursor-pointer">
+                        <div className="w-full flex items-center justify-center gap-[0.5rem] border border-[var(--primary-blue)] rounded-[0.3rem] cursor-pointer">
                             <FcGoogle />
                             <p className="text-[0.7rem] font-[600] text-[var(--primary-blue)]">Log in using Google</p>
                         </div>
                         <div className="flex items-center gap-[0.5rem]">
                             <p>Or</p>
                         </div>
-                        <form className="flex flex-col gap-[1.5rem]" onSubmit={handleSubmit}>
-                            <FormInput 
-                                type='email' 
-                                placeholder='Email' 
-                                icon={EmailIcon} 
-                                className="w-full py-[0.5rem] px-[2rem] rounded-[0.3rem] box-border" 
-                                value={formData.email} 
-                                onChange={handleChange} 
-                                name="email"
-                                error={errors.email}
-                            />
-                            <FormInput 
-                                type='password' 
-                                placeholder='Password' 
-                                icon={PasswordIcon} 
-                                className="w-full py-[0.5rem] px-[2rem] rounded-[0.3rem] box-border" 
-                                value={formData.password} 
-                                onChange={handleChange} 
-                                name="password"
-                                error={errors.password}
-                            />
+                        <form className="w-full flex flex-col gap-[1.5rem]" onSubmit={handleSubmit}>
+                            <div className='w-full flex flex-col'>
+                                <div className="w-full py-[0.2rem] px-[0.5rem] rounded-[0.3rem] flex items-center gap-[0.5rem] bg-[var(--input-bg)] border border-[var(--input-border)] focus:border-[var(--primary-blue)] active:bg-[var(--input-active-bg)] box-border">
+                                    <img src={EmailIcon} alt="email icon" />
+                                    <FormInput 
+                                        type='email' 
+                                        placeholder='Email'
+                                        value={formData.email} 
+                                        onChange={handleChange} 
+                                        name="email"
+                                    />
+                                </div>
+                                <p className='text-[var(--primary-red)] text-[0.7rem]'>
+                                    {errors.email}
+                                </p>
+                            </div>
+                            <div className='w-full flex flex-col'>
+                                <div className="w-full py-[0.2rem] px-[0.5rem] rounded-[0.3rem] flex items-center gap-[0.5rem] bg-[var(--input-bg)] border border-[var(--input-border)] focus:border-[var(--primary-blue)] active:bg-[var(--input-active-bg)] box-border">
+                                    <img src={PasswordIcon} alt="password icon" />
+                                    <FormInput 
+                                        type='password' 
+                                        placeholder='Password' 
+                                        value={formData.password} 
+                                        onChange={handleChange} 
+                                        name="password"
+                                    />
+                                </div>
+                                {errors.password && (
+                                    <p className='text-[var(--primary-red)] text-[0.7rem]'>{errors.password}</p>
+                                )}
+                            </div>
                             {/* Global auth error display */}
                             {authError && (
-                                <div className="text-red-500 text-sm mb-2">
+                                <div className="text-[var(--primary-red)]  text-[0.7rem] mb-2">
                                     {authError}
                                 </div>
                             )}

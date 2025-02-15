@@ -1,6 +1,7 @@
 export const ROUTES = {
     COMMON: {
         HOME: '/',
+        INSTRUCTOR: '/instructor',
         LOGIN: '/login',
         REGISTER: '/register',
         FORGOT_PASSWORD: '/forgot-password',
@@ -18,6 +19,7 @@ export const ROUTES = {
     },
     ADMIN: {
         BASE: '/admin',
+        HOME: '/admin/home',
         DASHBOARD: '/admin/dashboard',
         USERS: '/admin/users',
         SETTINGS: '/admin/settings'

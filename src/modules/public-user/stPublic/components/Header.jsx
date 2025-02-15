@@ -111,6 +111,11 @@ const Header = () => {
         })
     }
 
+    // navigate to admin portal
+    const handleAdminPortal = () => {
+        navigate(ROUTES.COMMON.INSTRUCTOR);
+    }
+
     return (
         <div className="w-full flex flex-col justify-center align-items-center h-[6rem]">
             <ToastContainer 
@@ -127,36 +132,41 @@ const Header = () => {
             />
             <div className=" w-[80%] mx-auto flex items-center justify-between px-4 ">
                 <div className="flex items-center w-[50%] gap-[3rem]">
-                    <img src={LogoImage} alt="Logo" className="w-[8rem] h-[3rem] object-contain" />
+                    <Link to={ROUTES.COMMON.HOME} className='flex items-center'>
+                        <img src={LogoImage} alt="Logo" className="w-[8rem] h-[3rem] object-contain" />
+                    </Link>
                     <nav className="flex gap-[2.5rem] text-[1.25rem]">
                         <Link to={ROUTES.COMMON.HOME}>Home</Link>
                         <Link to={ROUTES.STUDENT.COURSES}>Courses</Link>
                     </nav>
                 </div>
-                <div className="flex items-center gap-4 w-[50%] justify-end">
-                    {user ? 
-                        (
-                            <div className='flex items-center gap-[2rem] cursor-pointer' onClick={toggleMenu}>
-                                <div className='flex items-center gap-[1rem]'>
-                                    <div className='rounded-full bg-[var(--primary-blue)] text-[var(--bg-white)] w-[2.5rem] h-[2.5rem] flex items-center justify-center text-[1rem] font-[600]'>
-                                        {/* initials of name */}
-                                        {/* <p>{user.firstname[0]}{user.lastname[0]}</p> */}
-                                        <p>DD</p>
+                <div className='flex items-center w-[25%] justify-end'>
+                    <button className='text-[var(--primary-blue)] text-[1rem] font-[400] bg-[var(--bg-white)] hover:bg-[var(--button-hover)] rounded-[0.3rem] px-[1rem] py-[1.2rem]' onClick={handleAdminPortal}>Teach on G-Client</button>
+                    <div className="flex items-center gap-4 w-[50%] justify-end">
+                        {user ? 
+                            (
+                                <div className='flex items-center gap-[2rem] cursor-pointer' onClick={toggleMenu}>
+                                    <div className='flex items-center gap-[1rem]'>
+                                        <div className='rounded-full bg-[var(--primary-blue)] text-[var(--bg-white)] w-[2.5rem] h-[2.5rem] flex items-center justify-center text-[1rem] font-[600]'>
+                                            {/* initials of name */}
+                                            {/* <p>{user.firstname[0]}{user.lastname[0]}</p> */}
+                                            <p>DD</p>
+                                        </div>
+                                        <div className='flex items-center gap-[0.5rem] text-[1rem] font-[400]'>
+                                            <p>Daniel{user.firstname}</p>
+                                            <p>Doe{user.lastname}</p>
+                                        </div>
                                     </div>
-                                    <div className='flex items-center gap-[0.5rem] text-[1rem] font-[400]'>
-                                        <p>Daniel{user.firstname}</p>
-                                        <p>Doe{user.lastname}</p>
+                                    <div>
+                                        <IoIosArrowDown size={25} className='mt-[0.5rem]'/>
                                     </div>
                                 </div>
-                                <div>
-                                    <IoIosArrowDown size={25} className='mt-[0.5rem]'/>
-                                </div>
-                            </div>
-                        ):
-                        (
-                            <button className="flex items-center bg-[var(--bg-white)] gap-[0.5rem] text-[var(--primary-blue)] text-[1.25rem] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem] cursor-pointer hover:bg-[var(--primary-blue)] hover:text-[var(--bg-white)]"  onClick={toggleModal}>Login <FiLogIn style={{fontSize: '1.5rem', color: 'var(--primary-blue)hover:color: var(--bg-white)'}}/></button>
-                        )
-                    }
+                            ):
+                            (
+                                <button className="flex items-center bg-[var(--bg-white)] gap-[0.5rem] text-[var(--primary-blue)] text-[1.25rem] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem] cursor-pointer hover:bg-[var(--primary-blue)] hover:text-[var(--bg-white)]"  onClick={toggleModal}>Login <FiLogIn style={{fontSize: '1.5rem', color: 'var(--primary-blue)hover:color: var(--bg-white)'}}/></button>
+                            )
+                        }
+                    </div>
                 </div>
             </div>
             <AuthModal  isVisible={openModal}/>

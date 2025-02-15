@@ -1,4 +1,4 @@
-import AdminHome from '../../modules/public-user/adPublic/pages/AdminHome'
+import AdminHome from '../../modules/public-user/adPublic/pages/InstructorHome'
 
 const AdminPublicLayout = () => {
     return (

@@ -13,6 +13,7 @@ export const ROUTES = {
         HOME: '/student/home',
         DASHBOARD: '/student/dashboard',
         PROFILE: '/student/profile',
+        REGISTER: '/student/register',
         COURSES: '/student/courses'
     },
     ADMIN: {

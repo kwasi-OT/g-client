@@ -1,12 +1,16 @@
-import Dashboard from "../../modules/student/pages/Dashboard"
 import Header from "../../modules/public-user/stPublic/components/Header"
 import Footer from "../../modules/public-user/stPublic/components/Footer"
+import { Outlet } from 'react-router-dom'
 
 const StudentDashboardLayout = () => {
     return (
         <div>
             <Header/>
-            <Dashboard/>
+            <div>
+                <main>
+                    <Outlet/>
+                </main>
+            </div>
             <Footer/>
         </div>
     )

@@ -150,7 +150,7 @@ const Register = () => {
                     placeholder="Browse"
                     onChange={handleChange}
                     icon={ImageIcon}
-                    className='w-full'
+                    className='w-full text-[var(--text-grey)]'
                 />
                 <FormInput
                     type="text"

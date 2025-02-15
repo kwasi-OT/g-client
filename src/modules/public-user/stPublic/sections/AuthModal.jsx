@@ -14,7 +14,7 @@ const AuthModal = ({isVisible}) => {
     }
 
     return (
-        <div className="fixed top-[14.8%] left-[60%] z-[1] w-[30%] h-fit bg-[var(--bg-white)] mx-auto mt-6 border border-[var(--primary-blue)] rounded-[0.3rem] shadow-lg flex flex-col justify-center items-center">
+        <div className="absolute top-[6rem] left-[60%] z-[1] w-[30%] h-fit bg-[var(--bg-white)] mx-auto mt-6 border border-[var(--primary-blue)] rounded-[0.3rem] shadow-lg flex flex-col justify-center items-center">
             <div className="w-[90%] h-fit flex flex-col justify-between items-center">
                 {isLogin ? (
                     <div>

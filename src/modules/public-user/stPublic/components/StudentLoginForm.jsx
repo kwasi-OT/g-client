@@ -98,7 +98,7 @@ const StudentLoginForm = ({ toggleAuthView }) => {
                         <div className="flex items-center gap-[0.5rem]">
                             <p>Or</p>
                         </div>
-                        <form className="w-full flex flex-col gap-[1.5rem]" onSubmit={handleSubmit}>
+                        <form className="w-full flex flex-col" onSubmit={handleSubmit}>
                             <div className='w-full flex flex-col'>
                                 <div className="w-full py-[0.2rem] px-[0.5rem] rounded-[0.3rem] flex items-center gap-[0.5rem] bg-[var(--input-bg)] border border-[var(--input-border)] focus:border-[var(--primary-blue)] active:bg-[var(--input-active-bg)] box-border">
                                     <img src={EmailIcon} alt="email icon" />

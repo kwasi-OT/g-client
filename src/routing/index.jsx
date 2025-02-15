@@ -3,7 +3,6 @@ import { lazy, Suspense } from 'react';
 
 // Layouts
 import RootLayout from '../layouts/RootLayout';
-// import StudentPublicLayout from '../layouts/student/PublicLayout';
 import StudentDashboardLayout from '../layouts/student/DashboardLayout';
 import AdminDashboardLayout from '../layouts/admin/DashboardLayout';
 
@@ -17,8 +16,6 @@ import ProtectedRoute from './protected-routes';
 import { PublicRoutes } from './public-routes';
 
 // Module-specific Routes
-// import { StudentPublicRoutes } from './student/public-routes';
-// import { StudentDashboardRoutes } from './student/dashboard-routes';
 import { AdminPublicRoutes } from './admin/public-routes';
 import { AdminDashboardRoutes } from './admin/dashboard-routes';
 

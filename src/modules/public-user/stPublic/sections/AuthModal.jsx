@@ -14,8 +14,8 @@ const AuthModal = ({isVisible}) => {
     }
 
     return (
-        <div className="absolute top-[6rem] left-[60%] z-[1] w-[30%] h-fit bg-[var(--bg-white)] mx-auto mt-6 border border-[var(--primary-blue)] rounded-[0.3rem] flex flex-col justify-center items-center">
-            <div className="w-[95%] h-fit flex flex-col justify-between items-center">
+        <div className="absolute top-[6rem] left-[65%] z-[1] w-[25%] h-fit bg-[var(--bg-white)] mx-auto mt-6 border border-[var(--primary-blue)] rounded-[0.3rem] flex flex-col justify-center items-center">
+            <div className="w-[100%] h-fit flex flex-col justify-between items-center">
                 {isLogin ? (
                     <div>
                         <StudentLoginForm toggleAuthView={toggleAuthView}/>

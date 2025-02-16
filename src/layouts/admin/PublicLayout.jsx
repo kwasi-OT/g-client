@@ -1,9 +1,10 @@
-import AdminHome from '../../modules/public-user/adPublic/pages/InstructorHome'
+import InstructorHome from '../../modules/public-user/adPublic/pages/InstructorHome'
+
 
 const AdminPublicLayout = () => {
     return (
         <div>
-            <AdminHome />
+            <InstructorHome />
         </div>
     )
 }

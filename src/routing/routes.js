@@ -2,6 +2,9 @@ export const ROUTES = {
     COMMON: {
         HOME: '/',
         INSTRUCTOR: '/instructor',
+        PLAN: '/instructor/plan',
+        RECORD: '/instructor/record',
+        LAUNCH: '/instructor/launch',
         LOGIN: '/login',
         REGISTER: '/register',
         FORGOT_PASSWORD: '/forgot-password',

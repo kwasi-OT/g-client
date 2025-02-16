@@ -2,7 +2,7 @@ import HeroImage from '../../../../assets/heroimg-nobg.png'
 
 const HeroSection = () => {
     return (
-        <div className='w-full h-[37.5rem] bg-[var(--inst-hero-bg)]'>
+        <div className='w-full h-[37.5rem] bg-[var(--inst-cta-bg)]'>
             <div className="w-[80%] h-[100%] mx-auto flex items-center justify-center">
                 <div className="flex flex-col justify-start items-start w-[30%] h-[90%] pt-[5%] text-[var(--inst-hero-text-h1)]">
                     <h1 className='text-[3rem] font-bold'>Come teach <br/>with us</h1>

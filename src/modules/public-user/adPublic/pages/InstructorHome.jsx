@@ -2,6 +2,7 @@ import HeroSection from "../sections/HeroSection"
 import ReasonSection from "../sections/ReasonSection"
 import MetricSection from "../sections/MetricSection"
 import HowSection from "../sections/HowSection"
+import CtaSection from "../sections/CtaSection"
 
 const InstructorHome = () => {
     return (
@@ -10,6 +11,7 @@ const InstructorHome = () => {
             <ReasonSection />
             <MetricSection />
             <HowSection />
+            <CtaSection />
         </div>
     )
 }

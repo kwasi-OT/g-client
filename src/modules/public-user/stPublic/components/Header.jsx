@@ -140,7 +140,7 @@ const Header = () => {
                         <Link to={ROUTES.STUDENT.COURSES}>Courses</Link>
                     </nav>
                 </div>
-                <div className='flex items-center w-[25%] justify-end'>
+                <div className='flex items-center w-[30%] justify-end'>
                     <button className='text-[var(--primary-blue)] text-[1rem] font-[400] bg-[var(--bg-white)] hover:bg-[var(--button-hover)] rounded-[0.3rem] px-[1rem] py-[1.2rem]' onClick={handleAdminPortal}>Teach on G-Client</button>
                     <div className="flex items-center gap-4 w-[50%] justify-end">
                         {user ? 

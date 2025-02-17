@@ -16,7 +16,7 @@ import ProtectedRoute from './protected-routes';
 import { PublicRoutes } from './public-routes';
 
 // Module-specific Routes
-import { AdminPublicRoutes } from './admin/public-routes';
+// import { AdminPublicRoutes } from './admin/public-routes';
 import { AdminDashboardRoutes } from './admin/dashboard-routes';
 
 // User Roles
@@ -116,7 +116,6 @@ const router = createBrowserRouter([
                     </ProtectedRoute>
                 ),
                 children: [
-                    ...AdminPublicRoutes,
                     ...AdminDashboardRoutes.map(route => ({
                         ...route,
                         element: (

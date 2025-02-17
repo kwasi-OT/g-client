@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { ROUTES } from '../../../../routing/routes'
 import LogoImage from '../../../../assets/gclient-logo.png'
 import { FiLogIn } from 'react-icons/fi'
@@ -19,6 +19,7 @@ const Header = () => {
     const { isAuthenticated } = useSelector((state) => state.auth);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
 
     // Retrieve user from localStorage with error handling
     const user = (() => {
@@ -116,6 +117,32 @@ const Header = () => {
         navigate(ROUTES.COMMON.INSTRUCTOR);
     }
 
+    // navigate to instAuth page
+    const handleInstAuth = () => {
+        navigate(ROUTES.COMMON.INSTAUTH);
+    }
+
+    // determine if current route is an instructor 
+    const isInstructorRoute = location.pathname.startsWith(ROUTES.COMMON.INSTRUCTOR);
+
+    // conditionally render admin login button
+    const renderAdminLoginButton = () => {
+        if (isInstructorRoute) {
+            return (
+                <button className="flex items-center bg-[var(--bg-white)] gap-[0.5rem] text-[var(--primary-blue)] text-[1.25rem] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem] cursor-pointer hover:bg-[var(--primary-blue)] hover:text-[var(--bg-white)]" onClick={handleInstAuth}>
+                    Login
+                    <FiLogIn style={{fontSize: '1.5rem', color: 'var(--primary-blue) hover:color: var(--bg-white)'}}/>
+                </button>
+            );
+        } else {
+            return (
+                <button className="flex items-center bg-[var(--bg-white)] gap-[0.5rem] text-[var(--primary-blue)] text-[1.25rem] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem] cursor-pointer hover:bg-[var(--primary-blue)] hover:text-[var(--bg-white)]"  onClick={toggleModal}>
+                    Login <FiLogIn style={{fontSize: '1.5rem', color: 'var(--primary-blue)hover:color: var(--bg-white)'}}/>
+                </button>
+            );
+        }
+    };
+
     return (
         <div className="w-full flex flex-col justify-center align-items-center h-[6rem]">
             <ToastContainer 
@@ -163,7 +190,7 @@ const Header = () => {
                                 </div>
                             ):
                             (
-                                <button className="flex items-center bg-[var(--bg-white)] gap-[0.5rem] text-[var(--primary-blue)] text-[1.25rem] font-[600] border border-[var(--primary-blue)] px-[2rem] py-[1rem] rounded-[0.3rem] cursor-pointer hover:bg-[var(--primary-blue)] hover:text-[var(--bg-white)]"  onClick={toggleModal}>Login <FiLogIn style={{fontSize: '1.5rem', color: 'var(--primary-blue)hover:color: var(--bg-white)'}}/></button>
+                                renderAdminLoginButton()
                             )
                         }
                     </div>

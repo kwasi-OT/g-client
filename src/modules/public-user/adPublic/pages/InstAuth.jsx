@@ -3,6 +3,7 @@ import Logo from '../../../../assets/footer-logo.png'
 import LeftSectionImg from '../../../../assets/left-section-down.png'
 import WavesImg from '../../../../assets/waves.svg'
 import { ROUTES } from '../../../../routing/routes'
+import InstLogin from '../components/InstLogin'
 
 const InstAuth = () => {
     return (
@@ -25,7 +26,19 @@ const InstAuth = () => {
                     <img src={LeftSectionImg} alt="left section image" className="w-[100%] h-[100%] object-cover overflow-clip" />
                 </div>
             </div>
-            <div className="authRight w-[65%] h-[100%] bg-[var(--bg-white)]"></div>
+            <div className="authRight w-[65%] h-[100%] bg-[var(--bg-white)]">
+                <div className='content-container w-[90%] h-[100%] mx-auto mt-[1.5rem] mb-[2rem]'>
+                    <div className='cta-container w-[100%] h-[10%] flex justify-end items-center'>
+                        <div className='w-[50%] h-[100%] flex justify-center items-center gap-[1rem]'>
+                            <p className='underline'>Need to create an account?</p>
+                            <button className='bg-[var(--primary-blue)] text-[white] rounded-[0.3rem]'>Sign Up</button>
+                        </div>
+                    </div>
+                    <div className='w-[100%] h-[90%] mt-[-4rem] flex justify-center items-center'>
+                        <InstLogin />
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

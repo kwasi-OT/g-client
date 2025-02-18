@@ -1,11 +1,21 @@
+import { useState } from 'react' 
 import { Link } from 'react-router-dom'
 import Logo from '../../../../assets/footer-logo.png'
 import LeftSectionImg from '../../../../assets/left-section-down.png'
 import WavesImg from '../../../../assets/waves.svg'
 import { ROUTES } from '../../../../routing/routes'
 import InstLogin from '../components/InstLogin'
+import InstSignup from '../components/InstSignup'
 
 const InstAuth = () => {
+    const [login, setLogin] = useState(true);
+    const [signup, setSignup] = useState(false);
+
+    const toggleAuthView = () => {
+        setLogin(!login);
+        setSignup(!signup);
+    }
+
     return (
         <div className='w-full h-[100vh] flex'>
             <div className="authLeft w-[35%] h-full bg-[var(--primary-blue)]">
@@ -29,13 +39,30 @@ const InstAuth = () => {
             <div className="authRight w-[65%] h-[100%] bg-[var(--bg-white)]">
                 <div className='content-container w-[90%] h-[100%] mx-auto mt-[1.5rem] mb-[2rem]'>
                     <div className='cta-container w-[100%] h-[10%] flex justify-end items-center'>
-                        <div className='w-[50%] h-[100%] flex justify-center items-center gap-[1rem]'>
-                            <p className='underline'>Need to create an account?</p>
-                            <button className='bg-[var(--primary-blue)] hover:bg-[var(--logo-blue)] text-[white] rounded-[0.3rem]'>Sign Up</button>
-                        </div>
+                        {login && 
+                            <div className='signup-cta w-[50%] h-[100%] flex justify-center items-center gap-[1rem]'>
+                                <p className='underline'>
+                                    Need to create an account?
+                                </p>
+                                <button className='bg-[var(--primary-blue)] hover:bg-[var(--logo-blue)] text-[white] rounded-[0.3rem]' onClick={toggleAuthView}>
+                                    Sign Up
+                                </button>
+                            </div>
+                        }
+                        {signup && 
+                            <div className='signup-cta w-[50%] h-[100%] flex justify-center items-center gap-[1rem]'>
+                                <p className='underline'>
+                                    Already have an account?
+                                </p>
+                                <button className='bg-[var(--primary-blue)] hover:bg-[var(--logo-blue)] text-[white] rounded-[0.3rem]' onClick={toggleAuthView}>
+                                    Log In
+                                </button>
+                            </div>
+                        }
                     </div>
                     <div className='w-[100%] h-[90%] mt-[-4rem] flex justify-center items-center'>
-                        <InstLogin />
+                        {login && <InstLogin />}
+                        {signup && <InstSignup />}
                     </div>
                 </div>
             </div>

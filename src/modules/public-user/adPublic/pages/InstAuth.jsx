@@ -14,7 +14,7 @@ const InstAuth = () => {
                         <Link to={ROUTES.COMMON.INSTRUCTOR} className='w-[50%] h-[17%]'>
                             <img src={Logo} alt="Logo" className='w-[100%] h-[100%] ml-[0.8rem]'/>
                         </Link>
-                        <h1 className="text-[2rem] font-bold text-[white] ml-[0.8rem]">
+                        <h1 className="text-[1.8rem] font-bold text-[white] ml-[0.8rem]">
                             Create Your Account to Manage and Access the Dashboard Effortlessly.
                         </h1>
                     </div>
@@ -31,7 +31,7 @@ const InstAuth = () => {
                     <div className='cta-container w-[100%] h-[10%] flex justify-end items-center'>
                         <div className='w-[50%] h-[100%] flex justify-center items-center gap-[1rem]'>
                             <p className='underline'>Need to create an account?</p>
-                            <button className='bg-[var(--primary-blue)] text-[white] rounded-[0.3rem]'>Sign Up</button>
+                            <button className='bg-[var(--primary-blue)] hover:bg-[var(--logo-blue)] text-[white] rounded-[0.3rem]'>Sign Up</button>
                         </div>
                     </div>
                     <div className='w-[100%] h-[90%] mt-[-4rem] flex justify-center items-center'>

@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form"
+import { ROUTES } from "../../../../routing/routes";
+import { useNavigate } from "react-router-dom";
 import EmailIcon from '../../../../assets/icons/email.svg';
 import PasswordIcon from '../../../../assets/icons/lock.svg';
 import { MdChevronRight } from "react-icons/md";
@@ -7,11 +9,20 @@ import { MdError } from "react-icons/md";
 
 const InstSignup = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate();
+
+    // handle submit
+    const handleSignup = (data) => {
+        console.log(data);
+        // store in local storage
+        localStorage.setItem('formData', JSON.stringify(data));
+        navigate(ROUTES.COMMON.INSTOTP);
+    }
 
     return (
         <div className="w-[70%] h-[30%] flex flex-col gap-[1rem] mt-[-2rem]">
             <h1 className="text-[2rem] font-[700] leading-[3rem]">Register to get started</h1>
-            <form onSubmit={handleSubmit((data) => console.log(data))} className="w-full ">
+            <form onSubmit={handleSubmit(handleSignup)} className="w-full ">
                 <div className="form-container w-full flex flex-col items-center justify-center gap-[2rem]">
                     <div className="names w-[95%] flex items-center justify-between ">
                         <div className="firstname w-[45%] h-[3rem] flex flex-col">

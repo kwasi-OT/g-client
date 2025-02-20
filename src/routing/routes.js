@@ -3,6 +3,7 @@ export const ROUTES = {
         HOME: '/',
         INSTRUCTOR: '/instructor',
         INSTAUTH: '/instructor/auth',
+        INSTOTP: '/instructor/otp',
         LOGIN: '/login',
         REGISTER: '/register',
         FORGOT_PASSWORD: '/forgot-password',

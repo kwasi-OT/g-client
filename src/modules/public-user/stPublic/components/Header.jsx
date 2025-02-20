@@ -112,7 +112,7 @@ const Header = () => {
         })
     }
 
-    // navigate to admin portal
+    // navigate to instructor homepage
     const handleAdminPortal = () => {
         navigate(ROUTES.COMMON.INSTRUCTOR);
     }
@@ -143,6 +143,9 @@ const Header = () => {
         }
     };
 
+    // determin if current is a student dashboard
+    const isStudentDashboard = location.pathname.startsWith(ROUTES.STUDENT.DASHBOARD);
+
     return (
         <div className="w-full flex flex-col justify-center align-items-center h-[6rem]">
             <ToastContainer 
@@ -168,7 +171,13 @@ const Header = () => {
                     </nav>
                 </div>
                 <div className='flex items-center w-[30%] justify-end'>
-                    <button className='text-[var(--primary-blue)] text-[1rem] font-[400] bg-[var(--bg-white)] hover:bg-[var(--button-hover)] rounded-[0.3rem] px-[1rem] py-[1.2rem]' onClick={handleAdminPortal}>Teach on G-Client</button>
+                    {isStudentDashboard ? ('') : 
+                        (
+                            <button className='text-[var(--primary-blue)] text-[1rem] font-[400] bg-[var(--bg-white)] hover:bg-[var(--button-hover)] rounded-[0.3rem] px-[1rem] py-[1.2rem]' onClick={handleAdminPortal}>
+                        Teach on G-Client
+                    </button>
+                        )
+                    }
                     <div className="flex items-center gap-4 w-[50%] justify-end">
                         {user ? 
                             (

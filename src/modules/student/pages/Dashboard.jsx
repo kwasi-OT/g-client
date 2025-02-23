@@ -17,20 +17,20 @@ const Dashboard = () => {
                 </div>
             </div>
             <div className="bottom flex flex-col justify-center items-center w-[100%] mx-auto h-[70%] bg-[var(--bg-white)]">
-                <div className="content absolute top-[30%] w-[80%] mx-auto h-[50%] bg-[var(--bg-white)] border border-[var(--primary-blue)]">
+                <div className="content absolute top-[30%] w-[80%] mx-auto h-[50%] bg-[var(--bg-white)]">
                     <div className="w-[100%] h-[20%] flex items-center justify-start gap-[2rem]">
                         <NavLink to={ROUTES.STUDENT.REGISTER} className="w-[10%] h-[100%] flex items-center justify-center text-[black]">Application</NavLink>
                         <NavLink to={ROUTES.STUDENT.PROFILE} className="w-[10%] h-[100%] flex items-center justify-center text-[black]">Profile</NavLink>
                     </div>
-                    <div className="w-[100%] h-[80%] flex items-center justify-center">
+                    <div className="w-[100%] h-[80%] flex flex-col items-center justify-center gap-[2rem]">
                         <img src={TestingImage} alt="testing" className="w-[50%] h-[50%]" />
                         <p>!!! OOPs no application</p>
-                        <div>
-                            <button>
+                        <div className="w-[100%] h-[20%] flex items-center justify-center gap-[2rem]">
+                            <button className="flex items-center justify-center gap-[0.5rem]">
                                 <MdChevronLeft size={25} />
                                 Back
                             </button>
-                            <button>
+                            <button className="flex items-center justify-center gap-[0.5rem]">
                                 Start new application
                                 <MdChevronRight size={25} />
                             </button>

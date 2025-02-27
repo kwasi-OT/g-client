@@ -1,0 +1,36 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "firstName": "Nana",
+            "lastName": "Ampadu",
+            "email": "ampadu@ex.com",
+            "password": "user12345",
+            "role": "student"
+        },
+        {
+            "id": 2,
+            "firstName": "Yaw",
+            "lastName": "Adjei",
+            "email": "adjei@ex.com",
+            "password": "user12345",
+            "role": "student"
+        },
+        {
+            "id": 3,
+            "firstName": "Ama",
+            "lastName": "Dede",
+            "email": "Dede@ex.com",
+            "password": "user12345",
+            "role": "admin"
+        },
+        {
+            "id": 4,
+            "firstName": "Asor",
+            "lastName": "Asabre",
+            "email": "asabre@ex.com",
+            "password": "user12345",
+            "role": "admin"
+        }
+    ]
+}

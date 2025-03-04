@@ -4,6 +4,7 @@ export const ROUTES = {
         INSTRUCTOR: '/instructor',
         INSTAUTH: '/instructor/auth',
         INSTOTP: '/instructor/otp',
+        COURSES: '/courses/:categoryId',
         LOGIN: '/login',
         REGISTER: '/register',
         FORGOT_PASSWORD: '/forgot-password',

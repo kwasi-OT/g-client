@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../../../server/supabaseClient';
 import { FaStar, FaShoppingCart, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 const ScrollableContainer = ({ children, className = '' }) => {
     const containerRef = useRef(null);
     const [showLeftArrow, setShowLeftArrow] = useState(false);
     const [showRightArrow, setShowRightArrow] = useState(false);
+    
 
     const checkOverflow = () => {
         if (containerRef.current) {
@@ -97,7 +99,7 @@ const CourseCard = ({ course }) => {
     }, [course.id]);
 
     return (
-        <div className="relative group w-[25%] h-[80%] bg-[white] border border-[var(--primary-grey)] p-[0.5rem] rounded-[0.5rem] hover:shadow-(--shadow-md)">
+        <div className="relative group w-[40%] h-[80%] bg-[white] border border-[var(--primary-grey)] p-[0.5rem] rounded-[0.5rem] hover:shadow-(--shadow-md)">
             {/* Course Image */}
             <div className="w-full h-[200px]">
                 <img 
@@ -149,6 +151,7 @@ const CategoriesTab = () => {
     const [courses, setCourses] = useState({});
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedSubCategory, setSelectedSubCategory] = useState(null);
+    const navigate = useNavigate();
 
     // Fetch categories and initial data
     useEffect(() => {
@@ -282,81 +285,52 @@ const CategoriesTab = () => {
             )}
 
             {/* Courses Display */}
-            {selectedSubCategory && courses[selectedSubCategory] && (
+                {selectedSubCategory && courses[selectedSubCategory] ? (
+                    courses[selectedSubCategory].length === 0 ? (
+                        <p className="text-center mt-[10rem]">No courses available in this category.</p>
+                    ) : (
+                        <>
+                            <ScrollableContainer className="space-x-[0.5rem] pb-4">
+                                {courses[selectedSubCategory].map(course => (
+                                    <CourseCard key={course.id} course={course} />
+                                ))}
+                            </ScrollableContainer>
+                            <div className="text-center mt-[1rem]">
+                                <button 
+                                    className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+                                    onClick={() => navigate(`/courses/${selectedCategory}`)}
+                                >
+                                    View All Courses in Category
+                                </button>
+                            </div>
+                        </>
+                    )
+                ) : (
+                    <p className="text-center mt-[10rem]">Select a sub-category to view courses.</p>
+            )}
+
+
+            {/* {selectedSubCategory && courses[selectedSubCategory] && (
                 <ScrollableContainer className="space-x-[0.5rem] pb-4">
                     {courses[selectedSubCategory].map(course => (
                         <CourseCard key={course.id} course={course} />
                     ))}
                 </ScrollableContainer>
             )}
-            
-            <div className="text-center mt-4">
-                <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
-                    View All Courses in Category
-                </button>
-            </div>
+            {selectedSubCategory && courses[selectedSubCategory].length === 0 ? (
+                <p className="text-center mt-[10rem]">No courses available in this category.</p>
+            ) : (
+                <div className="text-center mt-[1rem]">
+                    <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+                    onClick={() => navigate(`/courses/${selectedCategory}`)}
+                    >
+                        View All Courses in Category
+                    </button>
+                </div>
+            )} */}
         </div>
     );
 };
-
-//     return (
-//         <div className="container w-full h-full mx-auto p-[0.5rem]">
-//             {/* Categories Tabs */}
-//             <div className="flex overflow-x-auto space-x-[0.5rem] pb-2">
-//                 {categories.map(category => (
-//                     <button
-//                         key={category.id}
-//                         onClick={() => setSelectedCategory(category.id)}
-//                         className={`
-//                             whitespace-nowrap
-//                             ${selectedCategory === category.id 
-//                                 ? 'bg-[var(--bg-white)] text-[var(--primary-black)] font-[500]' 
-//                                 : 'bg-[var(--bg-white)] text-[var(--subCat-bg)] hover:text-[var(--primary-black)]'}
-//                         `}
-//                     >
-//                         {category.name}
-//                     </button>
-//                 ))}
-//             </div>
-//             <div className='divider w-full h-[1px] mb-[0.5rem] bg-[var(--primary-grey)]'></div>
-//             {/* Sub-Categories Tabs */}
-//             {selectedCategory && subCategories[selectedCategory] && (
-//                 <div className="flex overflow-x-auto mb-[0.5rem] space-x-[0.5rem] mt-[1rem]">
-//                     {subCategories[selectedCategory].map(subCategory => (
-//                         <button
-//                             key={subCategory.id}
-//                             onClick={() => setSelectedSubCategory(subCategory.id)}
-//                             className={`
-//                                 px-[1rem] py-[1rem] rounded-full whitespace-nowrap
-//                                 ${selectedSubCategory === subCategory.id 
-//                                     ? 'bg-[var(--subCat-bg)] text-[var(--bg-white)] font-[500]' 
-//                                     : 'bg-[var(--placeholder-grey)] text-[var(--subCat-bg)] hover:bg-[var(--primary-grey)]'}
-//                             `}
-//                         >
-//                             {subCategory.name}
-//                         </button>
-//                     ))}
-//                 </div>
-//             )}
-
-//             {/* Courses Display */}
-//             {selectedSubCategory && courses[selectedSubCategory] && (
-//                 <div>
-//                     <div className="flex space-x-[0.5rem] overflow-x-auto pb-4">
-//                         {courses[selectedSubCategory].map(course => (
-//                             <CourseCard key={course.id} course={course} />
-//                         ))}
-//                     </div>
-//                 </div>
-//             )}
-//             <div className="text-center mt-4">
-//                 <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
-//                     View All Courses in Category
-//                 </button>
-//             </div>
-//         </div>
-//     );
-// };
 
 CourseCard.propTypes = {
     course: PropTypes.object.isRequired,

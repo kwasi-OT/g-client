@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../../../../server/supabaseClient';
 import { FaStar, FaFilter, FaShoppingCart } from 'react-icons/fa';
 import Header from '../components/Header';
@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 const CourseListItem = ({ course }) => {
     const [averageRating, setAverageRating] = useState(0);
     const [totalReviews, setTotalReviews] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCourseRatings = async () => {
@@ -34,7 +35,7 @@ const CourseListItem = ({ course }) => {
     }, [course.id]);
 
     return (
-        <div className="w-full h-[30%] flex items-start justify-start bg-[var(--bg-white)] border border-[var(--primary-grey)] rounded-[0.3rem] px-[1rem] overflow-hidden mb-4 shadow-[var(--shadow-md)] hover:shadow-lg transition-shadow cursor-pointer">
+        <div className="w-full h-[30%] flex items-start justify-start bg-[var(--bg-white)] border border-[var(--primary-grey)] rounded-[0.3rem] px-[1rem] overflow-hidden mb-4 shadow-[var(--shadow-md)] hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate(`/course/${course.id}`)}>
             {/* Course Image */}
             <div className="w-[30%] h-[100%]">
                 <img 
@@ -78,7 +79,7 @@ const CourseListItem = ({ course }) => {
 
                 {/* Price and Cart */}
                 <div className="w-[30%] py-[0.5rem] flex flex-col items-end justify-between">
-                    <span className="text-2xl font-bold text-green-600">${course.price}</span>
+                    <span className="bg-[var(--light-blue)] text-2xl p-[0.5rem] rounded-full font-bold text-green-600">${course.price}</span>
                     <button className="bg-blue-500 text-white p-2 rounded-full hover:bg-[var(--logo-blue)]">
                         <FaShoppingCart />
                     </button>
@@ -307,7 +308,7 @@ CourseListItem.propTypes = {
 };
 
 CourseListing.propTypes = {
-    courses: PropTypes.array.isRequired
+    courses: PropTypes.array
 };
 
 export default CourseListing;

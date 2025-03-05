@@ -1,22 +1,16 @@
-import SolutionCard from "../components/SolutionCard"
-import SDLogo from "../../../../assets/sd-logo.png"
-import DSLogo from '../../../../assets/ds-logo.png'
-import CCLogo from '../../../../assets/cc-logo.png'
+import CategoriesTab from "../components/CategoriesTab"
 
 const SolutionsSection = () => {
 
     return (
-        <div className="flex flex-col justify-center items-center w-full h-[110vh]">
-            <div className="w-[80%] h-[90%] mx-auto flex flex-col justify-between pb-[2rem]">
-                <div className="flex flex-col items-center w-[100%]">
-                    <h1>Our solutions</h1>
-                    <p>Create your account quickly with just your email or social media login, then explore a wide range </p>
+        <div className="flex flex-col justify-center items-center w-full h-[130vh]">
+            <div className="w-[80%] h-[95%] mx-auto flex flex-col justify-between pb-[2rem]">
+                <div className="flex flex-col items-start w-[100%]">
+                    <h2 className="text-[2rem]">All the skills you need in one place</h2>
+                    <p className="text-[1.2rem] mt-[-1rem]">From critical skills to technical topics, Udemy supports your professional development</p>
                 </div>
-                <div className="flex justify-between w-[100%] h-[65%]">
-                    <SolutionCard logo={SDLogo} title="Software Development" description="Unlock your potential with comprehensive training in modern software development, from coding fundamentals to building complex applications.
-" price="$350" />
-                    <SolutionCard logo={DSLogo} title="Data Science Mastery" description="Equip yourself with the skills to analyze, interpret, and leverage data, becoming an expert in machine learning, AI, and data-driven decision-making." price="$300"  />
-                    <SolutionCard logo={CCLogo} title="Cloud Computing Expertise" description="Gain hands-on experience in cloud architecture and deployment, preparing you to design, implement, and manage scalable cloud solutions in the real world." price="$300" />
+                <div className="w-[100%] h-[80%]">
+                    <CategoriesTab />
                 </div>
             </div>
         </div>

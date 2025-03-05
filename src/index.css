@@ -22,6 +22,7 @@
   --primary-grey: #dedede;
   --primary-blue: #01589A;
   --logo-blue: #004F7D;
+  --light-blue: #E6EFF5;
   --button-hover: #D1E5F8;
   --primary-lemon-green: #77C053;
   --primary-red: #A61D24;
@@ -36,6 +37,7 @@
   --inst-cta-bg: #eeeeee;
   --inst-hero-text-h1: #303141;
   --inst-hero-text-p: #303762;
+  --subCat-bg: #595c73;
 
   /* Font Families */
   --font-primary: 'Inter', sans-serif;

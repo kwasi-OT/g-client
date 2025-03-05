@@ -5,6 +5,8 @@ const Home = lazy(() => import('../modules/public-user/Home'));
 const Instructor = lazy(() => import('../modules/public-user/adPublic/pages/Home'));
 const OtpPage = lazy(() => import('../modules/public-user/adPublic/pages/OtpPage'));
 const Page404 = lazy(() => import('../modules/public-user/Page404'));
+const CourseListing = lazy(() => import('../modules/public-user/stPublic/pages/CourseListing'));
+const CourseDetails = lazy(() => import('../modules/public-user/stPublic/pages/CourseDetails'));
 
 export const PublicRoutes = [
     {
@@ -22,6 +24,14 @@ export const PublicRoutes = [
     {
         path: 'instructor/otp',
         element: <OtpPage />
+    },
+    {
+        path: 'courses/:categoryId',
+        element: <CourseListing />
+    },
+    {
+        path: 'course/:courseId',
+        element: <CourseDetails />
     },
     {
         path: '*',

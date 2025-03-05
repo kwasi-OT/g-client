@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../../../server/supabaseClient';
-import { FaStar, FaShoppingCart, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
@@ -74,6 +74,7 @@ const ScrollableContainer = ({ children, className = '' }) => {
 const CourseCard = ({ course }) => {
     const [averageRating, setAverageRating] = useState(0);
     const [totalReviews, setTotalReviews] = useState(0);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCourseRatings = async () => {
@@ -99,7 +100,7 @@ const CourseCard = ({ course }) => {
     }, [course.id]);
 
     return (
-        <div className="relative group w-[40%] h-[80%] bg-[white] border border-[var(--primary-grey)] p-[0.5rem] rounded-[0.5rem] hover:shadow-(--shadow-md)">
+        <div className="relative group w-[40%] h-[80%] bg-[white] border border-[var(--primary-grey)] p-[0.5rem] rounded-[0.5rem] hover:shadow-(--shadow-md) cursor-pointer">
             {/* Course Image */}
             <div className="w-full h-[200px]">
                 <img 
@@ -134,9 +135,12 @@ const CourseCard = ({ course }) => {
                 {/* Price and Cart */}
                 <div className="flex justify-between items-center mt-3">
                     <span className="font-bold text-lg">${course.price}</span>
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-[0.5rem] items-center mt-2">
+                        <button className="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600" onClick={() => navigate(`/course/${course.id}`)}>
+                            Details
+                        </button>
                         <button className="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600">
-                            <FaShoppingCart />
+                            Enroll
                         </button>
                     </div>
                 </div>

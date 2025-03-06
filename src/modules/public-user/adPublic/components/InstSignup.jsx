@@ -20,7 +20,7 @@ const InstSignup = () => {
     const handleSignup = async (data) => {
         setLoading(true);
 
-        const {email, password, firstName, lastName, role} = data;
+        const {email, password, firstName, lastName, userRole} = data;
         const { error } = await supabase.auth.signUp({
             email,
             password,
@@ -28,7 +28,7 @@ const InstSignup = () => {
                 data: {
                     first_name: firstName,
                     last_name: lastName,
-                    role: role
+                    role: userRole
                 }
             }
         })

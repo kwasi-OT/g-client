@@ -83,38 +83,6 @@ const CourseDetails = () => {
         }
     }, [courseId, navigate]);
 
-    const handleEnroll = async () => {
-        // Logic to check if user is logged in using supabase
-        const { data: { user }, error } = await supabase.auth.getUser();
-
-        if (error) {
-            console.error('Error fetching user:', error);
-            return;
-        }
-
-        if (!user) {
-            // Redirect to login
-            navigate('/login');
-        } else {
-            // Generate a bill in the billing table
-            const { error } = await supabase
-                .from('billing')
-                .insert({
-                    student_id: user.id,
-                    course_id: course.id,
-                    instructor_id: course.instructor_id,
-                    amount: course.price,
-                });
-
-            if (error) {
-                console.error('Error creating billing record:', error);
-            } else {
-                // Open order confirmation modal
-                // Implement order confirmation logic here
-            }
-        }
-    };
-
     // handle modal open and close
     const handleModalOpen = () => {
         setIsModalOpen(true);
@@ -323,8 +291,7 @@ const CourseDetails = () => {
                 isOpen={isModalOpen} 
                 onClose={handleModalClose} 
                 course={course} 
-                // instructor={instructor} 
-                onEnroll={handleEnroll} 
+                instructor={course.users} 
             />
             <Footer />
         </div>

@@ -36,38 +36,6 @@ const CourseListItem = ({ course }) => {
         fetchCourseRatings();
     }, [course.id]);
 
-    const handleEnroll = async () => {
-        // Logic to check if user is logged in using supabase
-        const { data: { user }, error } = await supabase.auth.getUser();
-
-        if (error) {
-            console.error('Error fetching user:', error);
-            return;
-        }
-
-        if (!user) {
-            // Redirect to login
-            navigate('/login');
-        } else {
-            // Generate a bill in the billing table
-            const { error } = await supabase
-                .from('billing')
-                .insert({
-                    student_id: user.id,
-                    course_id: course.id,
-                    instructor_id: course.instructor_id,
-                    amount: course.price,
-                });
-
-            if (error) {
-                console.error('Error creating billing record:', error);
-            } else {
-                // Open order confirmation modal
-                // Implement order confirmation logic here
-            }
-        }
-    };
-
     return (
         <div className="w-full h-[30%] flex items-start justify-start bg-[var(--bg-white)] border border-[var(--primary-grey)] rounded-[0.3rem] px-[1rem] overflow-hidden mb-4 shadow-[var(--shadow-md)] hover:shadow-lg transition-shadow">
             {/* Course Image */}
@@ -129,7 +97,6 @@ const CourseListItem = ({ course }) => {
                 onClose={() => setIsModalOpen(false)} 
                 course={course} 
                 instructor={course.users} 
-                onEnroll={handleEnroll} 
             />
         </div>
     );

@@ -5,6 +5,7 @@ import { FaStar, FaChalkboardTeacher, FaClock, FaBook, FaTag, FaRegAddressCard }
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PropTypes from 'prop-types';
+import EnrollmentModal from '../components/EnrollmentModal';
 
 const CourseDetails = () => {
     const { courseId } = useParams();
@@ -16,6 +17,7 @@ const CourseDetails = () => {
     const [averageRating, setAverageRating] = useState(0);
     const [totalReviews, setTotalReviews] = useState(0);
     const [courseReviews, setCourseReviews] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchCourseDetails = async () => {
@@ -81,7 +83,47 @@ const CourseDetails = () => {
         }
     }, [courseId, navigate]);
 
-    if (!course) return <div>Loading...</div>;
+    const handleEnroll = async () => {
+        // Logic to check if user is logged in using supabase
+        const { data: { user }, error } = await supabase.auth.getUser();
+
+        if (error) {
+            console.error('Error fetching user:', error);
+            return;
+        }
+
+        if (!user) {
+            // Redirect to login
+            navigate('/login');
+        } else {
+            // Generate a bill in the billing table
+            const { error } = await supabase
+                .from('billing')
+                .insert({
+                    student_id: user.id,
+                    course_id: course.id,
+                    instructor_id: course.instructor_id,
+                    amount: course.price,
+                });
+
+            if (error) {
+                console.error('Error creating billing record:', error);
+            } else {
+                // Open order confirmation modal
+                // Implement order confirmation logic here
+            }
+        }
+    };
+
+    // handle modal open and close
+    const handleModalOpen = () => {
+        setIsModalOpen(true);
+    };
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
+
+    if (!course) return <div className='w-full min-h-screen items-center justify-center bg-[var(--bg-white)]'>Loading...</div>;
 
     return (
         <div className="w-full min-h-screen bg-[var(--bg-white)]">
@@ -160,6 +202,7 @@ const CourseDetails = () => {
                                 </span>
                                 <button 
                                     className="flex items-center bg-[var(--primary-blue)] text-white px-[1rem] py-[0.5rem] rounded-[0.3rem] hover:bg-[var(--logo-blue)] transition"
+                                    onClick={handleModalOpen}
                                 >
                                     <FaRegAddressCard className="mr-[0.5rem]" /> Enroll Now
                                 </button>
@@ -276,7 +319,13 @@ const CourseDetails = () => {
                     )}
                 </div>
             </div>
-
+            <EnrollmentModal 
+                isOpen={isModalOpen} 
+                onClose={handleModalClose} 
+                course={course} 
+                // instructor={instructor} 
+                onEnroll={handleEnroll} 
+            />
             <Footer />
         </div>
     );

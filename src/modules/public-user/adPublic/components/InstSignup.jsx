@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm } from "react-hook-form"
 import { ROUTES } from "../../../../routing/routes";
 import { useNavigate } from "react-router-dom";
@@ -6,17 +7,44 @@ import PasswordIcon from '../../../../assets/icons/lock.svg';
 import { MdChevronRight } from "react-icons/md";
 import { HiOutlineUser } from "react-icons/hi";
 import { MdError } from "react-icons/md";
+import { Blocks } from "react-loader-spinner";
+import { supabase } from "../../../../server/supabaseClient";
+import { toast } from "react-toastify"
 
 const InstSignup = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     // handle submit
-    const handleSignup = (data) => {
-        console.log(data);
-        // store in local storage
-        localStorage.setItem('formData', JSON.stringify(data));
-        navigate(ROUTES.COMMON.INSTOTP);
+    const handleSignup = async (data) => {
+        setLoading(true);
+
+        const {email, password, firstName, lastName, role} = data;
+        const { error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    first_name: firstName,
+                    last_name: lastName,
+                    role: role
+                }
+            }
+        })
+
+        if (error) {
+            toast.error('Signup failed');
+            console.error(error);
+        } else {
+            toast.success('Signup was succssful');
+            // store in local storage
+            localStorage.setItem('formData', JSON.stringify(data));
+            // navigate to otp page
+            navigate(ROUTES.COMMON.INSTOTP);
+        }
+        setLoading(false);
+        return data;
     }
 
     return (
@@ -85,8 +113,18 @@ const InstSignup = () => {
                         </div>
                     </div>
                     <button type="submit" className="w-full h-[3rem] mt-[1rem] rounded-[0.3rem] bg-[var(--primary-blue)] hover:bg-[var(--logo-blue)] text-[var(--bg-white)] flex items-center justify-center gap-[0.5rem]">
-                        Create account
-                        <MdChevronRight color="var(--bg-white)" size={25} />
+                        {loading ? 
+                            <Blocks 
+                                visible={true} 
+                                height={30} 
+                                width={30} 
+                                ariaLabel="block-loading" 
+                            /> 
+                            : <>
+                                Create account
+                                <MdChevronRight color="var(--bg-white)" size={25} />
+                            </>
+                        }
                     </button>
                 </div>
                 <div className="tos w-full flex flex-col items-center justify-center">

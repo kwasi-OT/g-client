@@ -3,6 +3,8 @@ import { supabase } from '../../../../server/supabaseClient';
 import { FaStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
+import EnrollmentModal from './EnrollmentModal';
+
 
 const ScrollableContainer = ({ children, className = '' }) => {
     const containerRef = useRef(null);
@@ -74,6 +76,7 @@ const ScrollableContainer = ({ children, className = '' }) => {
 const CourseCard = ({ course }) => {
     const [averageRating, setAverageRating] = useState(0);
     const [totalReviews, setTotalReviews] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -98,6 +101,47 @@ const CourseCard = ({ course }) => {
 
         fetchCourseRatings();
     }, [course.id]);
+
+    const handleEnroll = async () => {
+        // Logic to check if user is logged in using supabase
+        const { data: { user }, error } = await supabase.auth.getUser();
+
+        if (error) {
+            console.error('Error fetching user:', error);
+            return;
+        }
+
+        if (!user) {
+            // Redirect to login
+            navigate('/login');
+        } else {
+            // Generate a bill in the billing table
+            const { error } = await supabase
+                .from('billing')
+                .insert({
+                    student_id: user.id,
+                    course_id: course.id,
+                    instructor_id: course.instructor_id,
+                    amount: course.price,
+                });
+
+            if (error) {
+                console.error('Error creating billing record:', error);
+            } else {
+                // Open order confirmation modal
+                // Implement order confirmation logic here
+            }
+        }
+    };
+
+    // handle modal open and close
+    const handleModalOpen = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+    };
 
     return (
         <div className="relative group w-[40%] h-[80%] bg-[white] border border-[var(--primary-grey)] p-[0.5rem] rounded-[0.5rem] hover:shadow-(--shadow-md) cursor-pointer">
@@ -139,12 +183,19 @@ const CourseCard = ({ course }) => {
                         <button className="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600" onClick={() => navigate(`/course/${course.id}`)}>
                             Details
                         </button>
-                        <button className="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600">
+                        <button className="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600" onClick={handleModalOpen}>
                             Enroll
                         </button>
                     </div>
                 </div>
             </div>
+            <EnrollmentModal
+                isOpen={isModalOpen} 
+                onClose={handleModalClose} 
+                course={course} 
+                // instructor={instructor} 
+                onEnroll={handleEnroll} 
+            />
         </div>
     );
 };
@@ -312,32 +363,13 @@ const CategoriesTab = () => {
                 ) : (
                     <p className="text-center mt-[10rem]">Select a sub-category to view courses.</p>
             )}
-
-
-            {/* {selectedSubCategory && courses[selectedSubCategory] && (
-                <ScrollableContainer className="space-x-[0.5rem] pb-4">
-                    {courses[selectedSubCategory].map(course => (
-                        <CourseCard key={course.id} course={course} />
-                    ))}
-                </ScrollableContainer>
-            )}
-            {selectedSubCategory && courses[selectedSubCategory].length === 0 ? (
-                <p className="text-center mt-[10rem]">No courses available in this category.</p>
-            ) : (
-                <div className="text-center mt-[1rem]">
-                    <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
-                    onClick={() => navigate(`/courses/${selectedCategory}`)}
-                    >
-                        View All Courses in Category
-                    </button>
-                </div>
-            )} */}
         </div>
     );
 };
 
 CourseCard.propTypes = {
     course: PropTypes.object.isRequired,
+    instructor: PropTypes.object
 };
 
 ScrollableContainer.propTypes = {

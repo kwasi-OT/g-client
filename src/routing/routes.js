@@ -9,6 +9,7 @@ export const ROUTES = {
         STAUTH: '/student/auth',
         STOTP: '/student/otp',
         STVERIFY_EMAIL: '/student/verify-email',
+        INSTVERIFY_EMAIL: '/instructor/verify-email',
         FORGOT_PASSWORD: '/forgot-password',
         RESET_PASSWORD: '/reset-password',
         UNAUTHORIZED: '/unauthorized',

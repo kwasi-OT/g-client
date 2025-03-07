@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../../../../server/supabaseClient';
-import { FaStar, FaFilter, FaShoppingCart } from 'react-icons/fa';
+import { FaStar, FaFilter } from 'react-icons/fa';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import PropTypes from 'prop-types';
+import EnrollmentModal from '../components/EnrollmentModal';
 
 const CourseListItem = ({ course }) => {
     const [averageRating, setAverageRating] = useState(0);
     const [totalReviews, setTotalReviews] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -35,7 +37,7 @@ const CourseListItem = ({ course }) => {
     }, [course.id]);
 
     return (
-        <div className="w-full h-[30%] flex items-start justify-start bg-[var(--bg-white)] border border-[var(--primary-grey)] rounded-[0.3rem] px-[1rem] overflow-hidden mb-4 shadow-[var(--shadow-md)] hover:shadow-lg transition-shadow cursor-pointer" onClick={() => navigate(`/course/${course.id}`)}>
+        <div className="w-full h-[30%] flex items-start justify-start bg-[var(--bg-white)] border border-[var(--primary-grey)] rounded-[0.3rem] px-[1rem] overflow-hidden mb-4 shadow-[var(--shadow-md)] hover:shadow-lg transition-shadow">
             {/* Course Image */}
             <div className="w-[30%] h-[100%]">
                 <img 
@@ -80,11 +82,22 @@ const CourseListItem = ({ course }) => {
                 {/* Price and Cart */}
                 <div className="w-[30%] py-[0.5rem] flex flex-col items-end justify-between">
                     <span className="bg-[var(--light-blue)] text-2xl p-[0.5rem] rounded-full font-bold text-green-600">${course.price}</span>
-                    <button className="bg-blue-500 text-white p-2 rounded-full hover:bg-[var(--logo-blue)]">
-                        <FaShoppingCart />
-                    </button>
+                    <div className='flex gap-[0.5rem]'>
+                        <button className="bg-blue-500 text-white p-2 rounded-full hover:bg-[var(--logo-blue)]" onClick={() => navigate(`/course/${course.id}`)}>
+                            Details
+                        </button>
+                        <button className="bg-blue-500 text-white p-2 rounded-full hover:bg-[var(--logo-blue)]" onClick={() => setIsModalOpen(true)}>
+                            Enroll
+                        </button>   
+                    </div>
                 </div>
             </div>
+            <EnrollmentModal 
+                isOpen={isModalOpen} 
+                onClose={() => setIsModalOpen(false)} 
+                course={course} 
+                instructor={course.users} 
+            />
         </div>
     );
 };
@@ -304,7 +317,8 @@ const CourseListing = () => {
 };
 
 CourseListItem.propTypes = {
-    course: PropTypes.object.isRequired
+    course: PropTypes.object.isRequired,
+    instructor: PropTypes.object
 };
 
 CourseListing.propTypes = {

@@ -5,18 +5,47 @@ import { MdChevronRight } from "react-icons/md";
 import { LuEye } from "react-icons/lu";
 import { LuEyeOff } from "react-icons/lu";
 import { useState } from 'react';
+import { supabase } from "../../../../server/supabaseClient";
+import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
+
+import { ROUTES } from "../../../../routing/routes";
+import { Blocks } from "react-loader-spinner";
 
 const InstLogin = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
-    const onSubmit = (data) => {
-        console.log(data)
-    }
-
-    const [showPassword, setShowPassword] = useState(false)
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+
+    const onSubmit = async (data) => {
+        setLoading(true);
+        
+        const {email, password} = data;
+        const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        })
+
+        // route to dashboard if successful
+        if (!error) {
+            toast.success('Login successful');
+            navigate(ROUTES.ADMIN.DASHBOARD);
+        }
+        if (error) {
+            toast.error('Login failed');
+            console.error(error);
+        }
+        setLoading(false);
+        return data;
+    }
+
+    
+    
 
     return (
         <div className="w-[50%] h-[30%] flex flex-col gap-[1rem]">
@@ -48,8 +77,18 @@ const InstLogin = () => {
                     {errors.password && <p className='error-message text-[0.7rem] text-[var(--primary-red)]'>{errors.password.message}</p>}
                 </div>
                 <button type="submit" className="w-full h-[3rem] rounded-[0.3rem] bg-[var(--primary-blue)] hover:bg-[var(--logo-blue)] text-[var(--bg-white)] flex items-center justify-center gap-[0.5rem]" >
-                    Login
-                    <MdChevronRight color="var(--bg-white)" size={25}/>    
+                    {loading ? 
+                        <Blocks 
+                            visible={true} 
+                            height={30} 
+                            width={30} 
+                            ariaLabel="block-loading" 
+                        /> : 
+                        <>
+                            Login
+                            <MdChevronRight color="var(--bg-white)" size={25}/>  
+                        </>
+                    }  
                 </button>
             </form>
         </div>

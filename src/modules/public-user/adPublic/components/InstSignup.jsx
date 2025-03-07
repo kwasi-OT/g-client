@@ -26,7 +26,7 @@ const InstSignup = () => {
             email,
             password,
             options: {
-                emailRedirectTo: 'http://localhost:3000/instructor/verify-email'
+                emailRedirectTo: 'https://gclient-lilac.vercel.app/instructor/verify-email'
             }
         });
     

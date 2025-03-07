@@ -26,7 +26,7 @@ const StudentSignupForm = ({toggleAuthView}) => {
             email,
             password,
             options: {
-                emailRedirectTo: 'http://localhost:3000/student/verify-email'
+                emailRedirectTo: 'https://gclient-lilac.vercel.app/student/verify-email'
             }
         });
     

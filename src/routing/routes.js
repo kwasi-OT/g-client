@@ -8,6 +8,7 @@ export const ROUTES = {
         COURSE_DETAILS: '/course/:courseId',
         STAUTH: '/student/auth',
         STOTP: '/student/otp',
+        STVERIFY_EMAIL: '/student/verify-email',
         FORGOT_PASSWORD: '/forgot-password',
         RESET_PASSWORD: '/reset-password',
         UNAUTHORIZED: '/unauthorized',

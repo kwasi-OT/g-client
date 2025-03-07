@@ -25,6 +25,9 @@ const StudentSignupForm = ({toggleAuthView}) => {
         const { user, error: signUpError } = await supabase.auth.signUp({
             email,
             password,
+            options: {
+                emailRedirectTo: 'http://localhost:3000/student/verify-email'
+            }
         });
     
         if (signUpError) {
@@ -52,7 +55,7 @@ const StudentSignupForm = ({toggleAuthView}) => {
             console.error('Insert error:', insertError);
         } else {
             toast.success('Signup successful!');
-            navigate(ROUTES.COMMON.STOTP); // Redirect to verification page
+            navigate(ROUTES.COMMON.STVERIFY_EMAIL); // Redirect to verification page
         }
     
         setLoading(false);

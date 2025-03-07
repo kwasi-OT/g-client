@@ -9,6 +9,7 @@ const CourseListing = lazy(() => import('../modules/public-user/stPublic/pages/C
 const CourseDetails = lazy(() => import('../modules/public-user/stPublic/pages/CourseDetails'));
 const StudentAuth = lazy(() => import('../modules/public-user/stPublic/pages/StudentAuth'));
 const StOtpPage = lazy(() => import('../modules/public-user/stPublic/pages/StOtpPage'));
+const VerifyEmail = lazy(() => import('../modules/public-user/stPublic/pages/VerifyEmail'));
 
 export const PublicRoutes = [
     {
@@ -22,6 +23,10 @@ export const PublicRoutes = [
     {
         path: 'student/otp',
         element: <StOtpPage />
+    },
+    {
+        path: 'student/verify-email',
+        element: <VerifyEmail />
     },
     {
         path: 'instructor',

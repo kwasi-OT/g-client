@@ -9,8 +9,10 @@ import PasswordIcon from '../../../../assets/icons/lock.svg';
 import { MdChevronRight } from "react-icons/md";
 import { HiOutlineUser } from "react-icons/hi";
 import { MdError } from "react-icons/md";
+import { ROUTES } from "../../../../routing/routes";
+import PropTypes from 'prop-types';
 
-const StudentSignupForm = () => {
+const StudentSignupForm = ({toggleAuthView}) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -50,14 +52,21 @@ const StudentSignupForm = () => {
             console.error('Insert error:', insertError);
         } else {
             toast.success('Signup successful!');
-            navigate('/login'); // Redirect to login or appropriate page
+            navigate(ROUTES.COMMON.STOTP); // Redirect to verification page
         }
     
         setLoading(false);
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full flex flex-col gap-[2rem]">
+            <div className='cta-container w-[80%] flex items-center justify-end gap-[0.5rem] mb-[1rem]'>
+                <p>Already have an account?</p>
+                <button type="button" className="w-[25%] h-[3rem] rounded-[0.3rem] bg-[var(--primary-blue)] hover:bg-[var(--logo-blue)] text-[var(--bg-white)] flex items-center justify-center gap-[0.5rem]" onClick={toggleAuthView}>
+                    Login 
+                    <MdChevronRight size={22}/>
+                </button>
+            </div>
             <div className="form-container w-[80%] flex flex-col items-center justify-center gap-[2rem]">
                     <div className="names w-[95%] flex items-center justify-between ">
                         <div className="firstname w-[45%] h-[3rem] flex flex-col">
@@ -144,6 +153,10 @@ const StudentSignupForm = () => {
                 </div>
         </form>
     );
+};
+
+StudentSignupForm.propTypes = {
+    toggleAuthView: PropTypes.func.isRequired
 };
 
 export default StudentSignupForm;

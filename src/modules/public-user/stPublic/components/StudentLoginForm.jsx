@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import FormInput from "../../../../utils/FormInput";
-import { FcGoogle } from "react-icons/fc";
 import EmailIcon from '../../../../assets/icons/email.svg';
 import PasswordIcon from '../../../../assets/icons/lock.svg';
 import { MdChevronRight } from "react-icons/md";
@@ -93,13 +92,13 @@ const StudentLoginForm = ({ toggleAuthView }) => {
                 ) : (
                     <div className="w-100% h-fit flex flex-col items-center justify-center">
                         <h2>Login</h2>
-                        <div className="w-full flex items-center justify-center gap-[0.5rem] border border-[var(--primary-blue)] rounded-[0.3rem] cursor-pointer">
+                        {/* <div className="w-full flex items-center justify-center gap-[0.5rem] border border-[var(--primary-blue)] rounded-[0.3rem] cursor-pointer">
                             <FcGoogle />
                             <p className="text-[0.7rem] font-[600] text-[var(--primary-blue)]">Log in using Google</p>
                         </div>
                         <div className="flex items-center gap-[0.5rem]">
                             <p>Or</p>
-                        </div>
+                        </div> */}
                         <form className="w-full flex flex-col" onSubmit={onSubmit}>
                             <div className='w-full flex flex-col'>
                                 <div className="w-full py-[0.2rem] px-[0.5rem] rounded-[0.3rem] flex items-center gap-[0.5rem] bg-[var(--input-bg)] border border-[var(--input-border)] focus:border-[var(--primary-blue)] active:bg-[var(--input-active-bg)] box-border">

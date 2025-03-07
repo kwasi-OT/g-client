@@ -9,6 +9,8 @@ const CourseListing = lazy(() => import('../modules/public-user/stPublic/pages/C
 const CourseDetails = lazy(() => import('../modules/public-user/stPublic/pages/CourseDetails'));
 const StudentAuth = lazy(() => import('../modules/public-user/stPublic/pages/StudentAuth'));
 const StOtpPage = lazy(() => import('../modules/public-user/stPublic/pages/StOtpPage'));
+const VerifyEmail = lazy(() => import('../modules/public-user/stPublic/pages/VerifyEmail'));
+const InsVerifyEmail = lazy(() => import('../modules/public-user/adPublic/pages/InsVerifyEmail'));
 
 export const PublicRoutes = [
     {
@@ -24,6 +26,10 @@ export const PublicRoutes = [
         element: <StOtpPage />
     },
     {
+        path: 'student/verify-email',
+        element: <VerifyEmail />
+    },
+    {
         path: 'instructor',
         element: <Instructor />
     },
@@ -34,6 +40,10 @@ export const PublicRoutes = [
     {
         path: 'instructor/otp',
         element: <OtpPage />
+    },
+    {
+        path: 'instructor/verify-email',
+        element: <InsVerifyEmail />
     },
     {
         path: 'courses/:categoryId',

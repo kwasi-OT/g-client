@@ -25,6 +25,9 @@ const InstSignup = () => {
         const { user, error: signUpError } = await supabase.auth.signUp({
             email,
             password,
+            options: {
+                emailRedirectTo: 'http://localhost:3000/instructor/verify-email'
+            }
         });
     
         if (signUpError) {
@@ -53,7 +56,7 @@ const InstSignup = () => {
         } else {
             toast.success('Signup successful!');
             localStorage.setItem('formData', JSON.stringify(data));
-            navigate(ROUTES.COMMON.INSTOTP); // Redirect to verification page
+            navigate(ROUTES.COMMON.INSTVERIFY_EMAIL); // Redirect to verification page
         }
     
         setLoading(false);
@@ -85,7 +88,7 @@ const InstSignup = () => {
     //         // store in local storage
     //         localStorage.setItem('formData', JSON.stringify(data));
     //         // navigate to otp page
-    //         navigate(ROUTES.COMMON.INSTOTP);
+    //         navigate(ROUTES.COMMON.INSTVERIFY_EMAIL);
     //     }
     //     setLoading(false);
     //     return data;

@@ -19,33 +19,77 @@ const InstSignup = () => {
     // handle submit
     const handleSignup = async (data) => {
         setLoading(true);
-
-        const {email, password, firstName, lastName, userRole} = data;
-        const { error } = await supabase.auth.signUp({
+        const { email, password, firstName, lastName } = data;
+    
+        // Sign up the user with Supabase
+        const { user, error: signUpError } = await supabase.auth.signUp({
             email,
             password,
-            options: {
-                data: {
+        });
+    
+        if (signUpError) {
+            toast.error('Signup failed: ' + signUpError.message);
+            console.error('Signup error:', signUpError);
+            setLoading(false);
+            return;
+        }
+    
+        // Create a record in the users table
+        const { error: insertError } = await supabase
+            .from('users')
+            .insert([
+                {
+                    auth_id: user.id, // Link to the Supabase user ID
+                    email: user.email,
                     first_name: firstName,
                     last_name: lastName,
-                    role: userRole
-                }
-            }
-        })
-
-        if (error) {
-            toast.error('Signup failed');
-            console.error(error);
+                    role: 'instructor'
+                },
+            ]);
+    
+        if (insertError) {
+            toast.error('Failed to create user record: ' + insertError.message);
+            console.error('Insert error:', insertError);
         } else {
-            toast.success('Signup was succssful');
-            // store in local storage
+            toast.success('Signup successful!');
             localStorage.setItem('formData', JSON.stringify(data));
-            // navigate to otp page
-            navigate(ROUTES.COMMON.INSTOTP);
+            navigate(ROUTES.COMMON.INSTOTP); // Redirect to verification page
         }
+    
         setLoading(false);
-        return data;
-    }
+    };
+
+
+
+    // const handleSignup = async (data) => {
+    //     setLoading(true);
+
+    //     const {email, password, firstName, lastName} = data;
+    //     const { error } = await supabase.auth.signUp({
+    //         email,
+    //         password,
+    //         options: {
+    //             data: {
+    //                 first_name: firstName,
+    //                 last_name: lastName,
+    //                 role: 'instructor'
+    //             }
+    //         }
+    //     })
+
+    //     if (error) {
+    //         toast.error('Signup failed');
+    //         console.error(error);
+    //     } else {
+    //         toast.success('Signup was succssful');
+    //         // store in local storage
+    //         localStorage.setItem('formData', JSON.stringify(data));
+    //         // navigate to otp page
+    //         navigate(ROUTES.COMMON.INSTOTP);
+    //     }
+    //     setLoading(false);
+    //     return data;
+    // }
 
     return (
         <div className="w-[70%] h-[30%] flex flex-col gap-[1rem] mt-[-2rem]">

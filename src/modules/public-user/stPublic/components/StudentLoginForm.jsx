@@ -6,10 +6,11 @@ import PasswordIcon from '../../../../assets/icons/lock.svg';
 import { MdChevronRight } from "react-icons/md";
 import ForgotPassword from "./ForgotPassword";
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../../../store/slices/authSlice';
+import { supabase } from '../../../../server/supabaseClient';
+import { useNavigate } from 'react-router-dom';
 import { Blocks } from 'react-loader-spinner';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { ROUTES } from '../../../../routing/routes';
 
 const StudentLoginForm = ({ toggleAuthView }) => {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
@@ -18,8 +19,9 @@ const StudentLoginForm = ({ toggleAuthView }) => {
         password: ''
     });
     const [errors, setErrors] = useState({});
-    const dispatch = useDispatch();
-    const { isLoading, authError } = useSelector((state) => state.auth);
+    const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+    
     
     // form validation
     const validateForm = () => {
@@ -49,25 +51,25 @@ const StudentLoginForm = ({ toggleAuthView }) => {
 
 
     // handle form submission
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const onSubmit = async (data) => {
+        setIsLoading(true);
+        const { email, password } = data;
 
-        // Clear previous errors
-        setErrors({});
-
-        if (validateForm()) {
-            const notify = () => toast.success('Login successful');
-            dispatch(login(formData))
-            .unwrap()
-            .then((response) => {
-                console.log('Login successful', response);
-                notify();
-            })
-            .catch((error) => {
-                console.error('Login failed', error);
-                toast.error('Login failed');
+        if(validateForm()) {
+            const { error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
             });
+            if (error) {
+                toast.error('Login failed: ' + error.message);
+                console.error('Login error:', error);
+            } else {
+                toast.success('Login successful!');
+                navigate(ROUTES.STUDENT.DASHBOARD);
+            }
         }
+
+        setIsLoading(false);
     };
 
     // handle change event
@@ -98,7 +100,7 @@ const StudentLoginForm = ({ toggleAuthView }) => {
                         <div className="flex items-center gap-[0.5rem]">
                             <p>Or</p>
                         </div>
-                        <form className="w-full flex flex-col" onSubmit={handleSubmit}>
+                        <form className="w-full flex flex-col" onSubmit={onSubmit}>
                             <div className='w-full flex flex-col'>
                                 <div className="w-full py-[0.2rem] px-[0.5rem] rounded-[0.3rem] flex items-center gap-[0.5rem] bg-[var(--input-bg)] border border-[var(--input-border)] focus:border-[var(--primary-blue)] active:bg-[var(--input-active-bg)] box-border">
                                     <img src={EmailIcon} alt="email icon" />
@@ -129,12 +131,6 @@ const StudentLoginForm = ({ toggleAuthView }) => {
                                     <p className='text-[var(--primary-red)] text-[0.7rem]'>{errors.password}</p>
                                 )}
                             </div>
-                            {/* Global auth error display */}
-                            {authError && (
-                                <div className="text-[var(--primary-red)]  text-[0.7rem] mb-2">
-                                    {authError}
-                                </div>
-                            )}
                             <p className="text-[0.7rem] font-[600] text-[var(--primary-blue)] cursor-pointer hover:underline" onClick={toggleForgotPassword}>Forgot password?</p>
                             <button className="w-full flex items-center justify-center gap-[0.5rem] bg-[var(--primary-blue)] text-[var(--bg-white)] py-[0.5rem] rounded-[0.3rem]" 
                             type='submit'
@@ -172,18 +168,6 @@ const StudentLoginForm = ({ toggleAuthView }) => {
                         <div className="flex items-center justify-center">
                             <div className="animate-spin rounded-full border-t-2 border-b-2 border-gray-900 h-12 w-12"></div>
                         </div>
-                        <ToastContainer
-                            position="top-center"
-                            autoClose={5000}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            closeOnClick={false}
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                            theme="light"
-                        />
                     </div>
                 )
             }

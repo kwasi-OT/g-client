@@ -95,7 +95,7 @@ const OnBoarding = () => {
             <div className='w-[80%] mx-auto flex flex-col items-center justify-center gap-[2rem] mt-[2rem]'>
                 <h2 className="text-[1.5rem] font-bold mb-[1rem]">Complete Your Onboarding</h2>
                 {user && (
-                    <div>
+                    <div className="w-[90%] flex flex-col gap-[1rem]">
                         <p>Welcome! {user.first_name} {user.last_name} and thank you for signing up! </p>
                         <p>Please complete your on-boarding to continue to your dashboard.</p>
                     </div>

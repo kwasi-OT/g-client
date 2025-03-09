@@ -19,14 +19,14 @@ const StudentSignupForm = ({toggleAuthView}) => {
 
     const onSubmit = async (data) => {
         setLoading(true);
-        const { email, password, firstName, lastName } = data;
+        const { email, password } = data;
     
         // Sign up the user with Supabase
-        const { user, error: signUpError } = await supabase.auth.signUp({
+        const { error: signUpError } = await supabase.auth.signUp({
             email,
             password,
             options: {
-                emailRedirectTo: 'http://localhost:5174/student/verify-email'
+                emailRedirectTo: 'http://localhost:5173/student/verify-email'
             }
         });
     
@@ -35,28 +35,31 @@ const StudentSignupForm = ({toggleAuthView}) => {
             console.error('Signup error:', signUpError);
             setLoading(false);
             return;
+        } else {
+            toast.success('Signup successful!');
+            navigate(ROUTES.COMMON.STOTP); // Redirect to verification page
         }
     
         // Create a record in the users table
-        const { error: insertError } = await supabase
-            .from('users')
-            .insert([
-                {
-                    auth_id: user, // Link to the Supabase user ID
-                    email: email,
-                    first_name: firstName,
-                    last_name: lastName,
-                    role: 'student'
-                },
-            ]);
+        // const { error: insertError } = await supabase
+        //     .from('users')
+        //     .insert([
+        //         {
+        //             auth_id: user, // Link to the Supabase user ID
+        //             email: email,
+        //             first_name: firstName,
+        //             last_name: lastName,
+        //             role: 'student'
+        //         },
+        //     ]);
     
-        if (insertError) {
-            toast.error('Failed to create user record: ' + insertError.message);
-            console.error('Insert error:', insertError);
-        } else {
-            toast.success('Signup successful!');
-            navigate(ROUTES.COMMON.STVERIFY_EMAIL); // Redirect to verification page
-        }
+        // if (insertError) {
+        //     toast.error('Failed to create user record: ' + insertError.message);
+        //     console.error('Insert error:', insertError);
+        // } else {
+        //     toast.success('Signup successful!');
+        //     navigate(ROUTES.COMMON.STVERIFY_EMAIL); // Redirect to verification page
+        // }
     
         setLoading(false);
     };

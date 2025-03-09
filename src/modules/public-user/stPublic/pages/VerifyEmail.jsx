@@ -16,7 +16,7 @@ const VerifyEmail = () => {
                 navigate(ROUTES.COMMON.STAUTH); // Redirect to signup
             } else if (user) {
                 toast.success('Email verified successfully!');
-                navigate(ROUTES.STUDENT.DASHBOARD); // Redirect to the dashboard 
+                navigate(ROUTES.STUDENT.STONBOARDING); // Redirect to the dashboard 
             }
         };
 

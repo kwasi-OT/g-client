@@ -11,6 +11,7 @@ const StudentAuth = lazy(() => import('../modules/public-user/stPublic/pages/Stu
 const StOtpPage = lazy(() => import('../modules/public-user/stPublic/pages/StOtpPage'));
 const VerifyEmail = lazy(() => import('../modules/public-user/stPublic/pages/VerifyEmail'));
 const InsVerifyEmail = lazy(() => import('../modules/public-user/adPublic/pages/InsVerifyEmail'));
+const OnBoarding = lazy(() => import('../modules/public-user/stPublic/pages/OnBoarding'));
 
 export const PublicRoutes = [
     {
@@ -28,6 +29,10 @@ export const PublicRoutes = [
     {
         path: 'student/verify-email',
         element: <VerifyEmail />
+    },
+    {
+        path: 'student/onboarding',
+        element: <OnBoarding />
     },
     {
         path: 'instructor',

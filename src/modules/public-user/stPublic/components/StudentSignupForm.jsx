@@ -26,7 +26,7 @@ const StudentSignupForm = ({toggleAuthView}) => {
             email,
             password,
             options: {
-                emailRedirectTo: 'https://gclient-lilac.vercel.app/student/verify-email'
+                emailRedirectTo: 'http://localhost:5174/student/verify-email'
             }
         });
     
@@ -42,8 +42,8 @@ const StudentSignupForm = ({toggleAuthView}) => {
             .from('users')
             .insert([
                 {
-                    auth_id: user.id, // Link to the Supabase user ID
-                    email: user.email,
+                    auth_id: user, // Link to the Supabase user ID
+                    email: email,
                     first_name: firstName,
                     last_name: lastName,
                     role: 'student'

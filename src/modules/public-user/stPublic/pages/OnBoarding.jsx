@@ -29,11 +29,7 @@ const OnBoarding = () => {
         };
         fetchCourses();
         }, []);
-
-    // const handleCourseSelection = (event) => {
-    //     const selectedOptions = Array.from(event.target.selectedOptions).map(option => option.value);
-    //     setPreferredCourses(selectedOptions);
-    // };
+        
 
     const onSubmit = async () => {
         setLoading(true);

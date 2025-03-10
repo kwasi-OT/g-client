@@ -30,10 +30,10 @@ const OnBoarding = () => {
         fetchCourses();
         }, []);
 
-    const handleCourseSelection = (event) => {
-        const selectedOptions = Array.from(event.target.selectedOptions).map(option => option.value);
-        setPreferredCourses(selectedOptions);
-    };
+    // const handleCourseSelection = (event) => {
+    //     const selectedOptions = Array.from(event.target.selectedOptions).map(option => option.value);
+    //     setPreferredCourses(selectedOptions);
+    // };
 
     const onSubmit = async () => {
         setLoading(true);
@@ -111,14 +111,14 @@ const OnBoarding = () => {
     }, []);
 
     return (
-        <div className="onboarding-container">
+        <div className="onboarding-container w-full h-full mb-[3rem] flex items-center justify-center">
             <div className='w-[80%] mx-auto flex flex-col items-center justify-center gap-[2rem] mt-[2rem]'>
                 <h2 className="text-[1.5rem] font-bold mb-[1rem]">Complete Your Onboarding</h2>
                 <div className="w-[90%] flex flex-col gap-[1rem]">
                     <p>Welcome and thank you for signing up! </p>
                     <p>Please complete your on-boarding to continue to your dashboard.</p>
                 </div>
-                <form onSubmit={handleSubmit(onSubmit)} className="w-[90%] flex flex-col gap-[1rem]">
+                <form onSubmit={handleSubmit(onSubmit)} className="w-[90%] flex flex-col gap-[3rem]">
                     <div className="w-full flex items-center justify-between ">
                             <div className="firstname w-[45%] flex items-center gap-[0.5rem] bg-[var(--input-bg)] border-b-[1px] border-[var(--primary-blue)] rounded-t-[0.3rem] p-[0.5rem]">
                                 <HiOutlineUser color="#3f3f3f" size={22}/>
@@ -143,14 +143,28 @@ const OnBoarding = () => {
                             {errors.lastName && <MdError color="var(--primary-red)" size={22}/>}
                         </div>
                     </div>
-                    <div className="w-[98.3%] flex items-center gap-[0.5rem] bg-[var(--bg-white)] border-[1px] border-[var(--primary-blue)] rounded-[0.3rem] p-[0.5rem]">
-                        <select multiple className="w-full h-[10rem] bg-[var(--bg-white)] border-none outline-none text-[1rem] text-[var(--primary-black)]" onChange={handleCourseSelection}>
+                    <div className="w-[98.3%] flex flex-col gap-[1rem] bg-[var(--bg-white)] border-[1px] border-[var(--primary-blue)] rounded-[0.3rem] p-[0.5rem]">
+                        <label className="text-[1.3rem] font-[700]">Preferred Courses</label>
+                        <div className="flex flex-col gap-[0.5rem]">
                             {allCourses.map(course => (
-                                <option className="p-[0.4rem]" key={course.id} value={course.id}>
-                                    {course.name}
-                                </option>
+                                <div key={course.id}>
+                                    <label className="text-[1rem] flex items-center gap-[0.5rem]">
+                                        <input
+                                            type="checkbox"
+                                            value={course.id}
+                                            onChange={(e) => {
+                                                const selectedOptions = e.target.checked
+                                                    ? [...preferredCourses, course.id]
+                                                    : preferredCourses.filter(id => id !== course.id);
+                                                setPreferredCourses(selectedOptions);
+                                            }}
+                                            className='w-[1rem] h-[1rem]'
+                                        />
+                                        {course.name}
+                                    </label>
+                                </div>
                             ))}
-                        </select>
+                        </div>
                     </div>
                     <button type="submit" disabled={loading} className="w-[100%] h-[3rem] rounded-[0.3rem] bg-[var(--primary-blue)] hover:bg-[var(--logo-blue)] text-[var(--bg-white)] flex items-center justify-center gap-[0.5rem]">
                         {loading ? <Blocks color="#000" height={20} width={20} /> : 'Submit'}

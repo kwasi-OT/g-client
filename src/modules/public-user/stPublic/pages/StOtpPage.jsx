@@ -3,7 +3,6 @@ import { ROUTES } from "../../../../routing/routes"
 import { Link } from "react-router-dom"
 import Logo from "../../../../assets/footer-logo.png"
 import LeftSectionImg from "../../../../assets/otpimage.png"
-// import { IoMdArrowBack } from "react-icons/io";
 
 const StOtpPage = () => {
     return (

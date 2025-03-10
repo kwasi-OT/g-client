@@ -9,26 +9,12 @@ import { HiOutlineUser } from "react-icons/hi";
 import { MdError } from "react-icons/md";
 
 const OnBoarding = () => {
-    const [preferredCourses, setPreferredCourses] = useState([]);
+    const [setPreferredCourses] = useState([]);
     const [allCourses, setAllCourses] = useState([]);
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [loading, setLoading] = useState(false);
-    const [user, setUser] = useState(null);
-
-    // fetch the user
-    useEffect(() => {
-        const fetchUser = async () => {
-            const { data, error } = await supabase.auth.getUser();
-            if (error) {
-                toast.error('Error fetching user: ' + error.message);
-            } else {
-                setUser(data);
-            }
-        };
-
-        fetchUser();
-    }, []);
+    // const [user, setUser] = useState(null);
 
     useEffect(() => {
         // Fetch available courses from the sub_categories table
@@ -44,10 +30,21 @@ const OnBoarding = () => {
         fetchCourses();
     }, []);
 
+    const handleCourseSelection = (event) => {
+        const selectedOptions = Array.from(event.target.selectedOptions).map(option => option.value);
+        setPreferredCourses(selectedOptions);
+    };
+
     const onSubmit = async (data) => {
         setLoading(true);
         const { firstName, lastName, preferredCourses } = data;
-        const user = supabase.auth.user(); // Get the authenticated user
+
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError) {
+            toast.error('Error fetching user: ' + userError.message);
+            setLoading(false);
+            return;
+        } 
 
         // Insert the user details into the users table
         const { error } = await supabase.from('users').insert([
@@ -63,8 +60,12 @@ const OnBoarding = () => {
         if (error) {
             toast.error('Failed to create user record: ' + error.message);
             console.error('Insert error:', error);
-        } else {
-            // Insert preferred courses into user_preferred_courses table
+            setLoading(false);
+            return;
+        }
+
+        // Handle preferred courses insertion
+        if (preferredCourses.length > 0) {
             const preferredCourseInserts = preferredCourses.map(courseId => ({
                 user_id: user.id,
                 course_id: courseId,
@@ -78,30 +79,23 @@ const OnBoarding = () => {
                 toast.success('Onboarding completed successfully!');
                 navigate(ROUTES.STUDENT.DASHBOARD); // Redirect to the dashboard or appropriate page
             }
+        } else {
+            toast.success('Onboarding completed successfully without preferred courses!');
+            navigate(ROUTES.STUDENT.DASHBOARD);
         }
         setLoading(false);
-        handlePreferredCourses();
     };
-
-    // handle preferred courses selection
-    const handlePreferredCourses = () => {
-        if (preferredCourses.length === 0) {
-            toast.error('Please select at least one preferred course');
-        }
-    }
 
     return (
         <div className="onboarding-container">
             <div className='w-[80%] mx-auto flex flex-col items-center justify-center gap-[2rem] mt-[2rem]'>
                 <h2 className="text-[1.5rem] font-bold mb-[1rem]">Complete Your Onboarding</h2>
-                {user && (
-                    <div className="w-[90%] flex flex-col gap-[1rem]">
-                        <p>Welcome! {user.first_name} {user.last_name} and thank you for signing up! </p>
-                        <p>Please complete your on-boarding to continue to your dashboard.</p>
-                    </div>
-                )}
-                    <form onSubmit={handleSubmit(onSubmit)} className="w-[90%] flex flex-col gap-[1rem]">
-                        <div className="w-full flex items-center justify-between ">
+                <div className="w-[90%] flex flex-col gap-[1rem]">
+                    <p>Welcome and thank you for signing up! </p>
+                    <p>Please complete your on-boarding to continue to your dashboard.</p>
+                </div>
+                <form onSubmit={handleSubmit(onSubmit)} className="w-[90%] flex flex-col gap-[1rem]">
+                    <div className="w-full flex items-center justify-between ">
                             <div className="firstname w-[45%] flex items-center gap-[0.5rem] bg-[var(--input-bg)] border-b-[1px] border-[var(--primary-blue)] rounded-t-[0.3rem] p-[0.5rem]">
                                 <HiOutlineUser color="#3f3f3f" size={22}/>
                                 <input
@@ -122,7 +116,7 @@ const OnBoarding = () => {
                         </div>
                     </div>
                     <div className="w-[98.3%] flex items-center gap-[0.5rem] bg-[var(--bg-white)] border-[1px] border-[var(--primary-blue)] rounded-[0.3rem] p-[0.5rem]">
-                        <select multiple className="w-full h-[10rem] bg-[var(--bg-white)] border-none outline-none text-[1rem] text-[var(--primary-black)]" onChange={(e) => setPreferredCourses([...e.target.selectedOptions].map(option => option.value))}>
+                        <select multiple className="w-full h-[10rem] bg-[var(--bg-white)] border-none outline-none text-[1rem] text-[var(--primary-black)]" onChange={handleCourseSelection}>
                             {allCourses.map(course => (
                                 <option className="p-[0.4rem]" key={course.id} value={course.id}>
                                     {course.name}

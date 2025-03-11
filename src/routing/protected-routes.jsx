@@ -1,7 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { setUserRole } from '../store/slices/authSlice';
+import { supabase } from '../server/supabaseClient';
 import { ROUTES, USER_ROLES } from '../routing/routes';
 import PropTypes from 'prop-types';
 
@@ -11,48 +10,52 @@ const ProtectedRoute = ({
     redirectPath = ROUTES.COMMON.UNAUTHORIZED 
 }) => {
     const location = useLocation();
-    const { isAuthenticated } = useSelector((state) => state.auth);
-    const dispatch = useDispatch();
+    const [user, setUser] = useState(null);
+    const [userRole, setUserRole] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    // Retrieve user from localStorage with error handling
-    const user = (() => {
-        try {
-            return JSON.parse(localStorage.getItem('user'));
-        } catch (error) {
-            console.error('Error parsing user from localStorage:', error);
-            return null;
-        }
-    })();
-
-    // Automatically assign student role if not present
     useEffect(() => {
-        if (isAuthenticated && user && !user?.role) {
-            const determinedRole = determineUserRole(user);
-            dispatch(setUserRole(determinedRole));
+        const fetchAuthUser = async () => {
+            const { data: { user }, error } = await supabase.auth.getUser();
+            if (error) {
+                console.error('Error fetching user:', error);
+                setLoading(false);
+                return;
+            }
+            setUser(user);
+            console.log('Fetched user:', user);
 
-            console.log('Automatically assigned user role:', determinedRole);
-        }
-    }, [isAuthenticated, user, dispatch]);
+            // Fetch user data from the users table if user exists
+            if (user) {
+                const { data: userData, error: userError } = await supabase
+                    .from('users')
+                    .select('*')
+                    .eq('auth_id', user.id)
+                    .single();
 
-    // Role determination function
-    const determineUserRole = (userData) => {
-        if (userData.email.includes('@student.')) {
-            return USER_ROLES.STUDENT;
-        }
-        if (userData.email.includes('@admin.')) {
-            return USER_ROLES.ADMIN;
-        }
-        return USER_ROLES.STUDENT;
-    };
+                if (userError) {
+                    console.error('Error fetching user data:', userError);
+                    setLoading(false);
+                    return;
+                }
 
-    console.log('Protected Route Checks:', {
-        isAuthenticated,
-        user,
-        userRole: user?.role
-    });
+                setUserRole(userData.role);
+                console.log('Fetched user data:', userData);
+                console.log('Fetched user role:', userData.role);
+            }
+            setLoading(false);
+        };
+
+        fetchAuthUser();
+    }, []);
+
+    // Loading state
+    if (loading) {
+        return <div>Loading...</div>; // Or a loading spinner
+    }
 
     // Not authenticated
-    if (!isAuthenticated || !user) {
+    if (!user) {
         return <Navigate 
             to={redirectPath} 
             state={{ from: location }} 
@@ -61,11 +64,11 @@ const ProtectedRoute = ({
     }
 
     // Check user role
-    const hasAllowedRole = allowedRoles.includes(user?.role);
+    const hasAllowedRole = allowedRoles.includes(userRole);
 
     if (!hasAllowedRole) {
         console.warn('Unauthorized role access attempt', {
-            userRole: user.role,
+            userRole,
             allowedRoles
         });
         return <Navigate 
@@ -74,10 +77,10 @@ const ProtectedRoute = ({
         />;
     }
 
-    // Check email verification if required
-    if (!user?.isVerified) {
+    // Check email verification
+    if (!user.email_confirmed_at) { // Assuming this field indicates verification
         return <Navigate 
-            to="/verify-email" 
+            to={ROUTES.COMMON.STVERIFY_EMAIL} 
             state={{ from: location }} 
             replace 
         />;

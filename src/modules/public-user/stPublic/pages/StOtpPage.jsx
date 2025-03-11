@@ -1,9 +1,8 @@
-import Otp from "../components/Otp"
+import SignupSuccess from "../components/SignupSuccess"
 import { ROUTES } from "../../../../routing/routes"
 import { Link } from "react-router-dom"
 import Logo from "../../../../assets/footer-logo.png"
 import LeftSectionImg from "../../../../assets/otpimage.png"
-import { IoMdArrowBack } from "react-icons/io";
 
 const StOtpPage = () => {
     return (
@@ -15,7 +14,7 @@ const StOtpPage = () => {
                             <img src={Logo} alt="Logo" className='w-[100%] h-[100%] ml-[0.8rem]'/>
                         </Link>
                         <h1 className="text-[1.5rem] font-[400] text-[white] ml-[0.8rem]">
-                            Secure Your Account with OTP Verification. Simply enter the code we’ve sent to ensure your information stays safe and protected.
+                            Secure Your Account with Email Verification.
                         </h1>
                     </div>
                 </div>
@@ -25,14 +24,8 @@ const StOtpPage = () => {
             </div>
             <div className="authRight w-[70%] h-[100%] bg-[var(--bg-white)]">
                 <div className='content-container w-[90%] h-[100%] mx-auto mt-[1.5rem] mb-[2rem]'>
-                    <div className='cta-container w-[100%] h-[10%] flex justify-start items-center'>
-                        <Link to={ROUTES.COMMON.STAUTH} className='flex items-center gap-[0.5rem] text-[var(--primary-blue)] font-[500] text-[1rem] border border-[var(--primary-blue)] px-[1.5rem] py-[0.75rem] rounded-[0.3rem]'>
-                            <IoMdArrowBack />
-                            Back
-                        </Link>
-                    </div>
                     <div className='w-[100%] h-[90%] mt-[-4rem] flex justify-center items-center'>
-                        <Otp />
+                        <SignupSuccess />
                     </div>
                 </div>
             </div>

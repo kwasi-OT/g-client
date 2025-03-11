@@ -7,7 +7,6 @@ import { Blocks } from 'react-loader-spinner';
 import EmailIcon from '../../../../assets/icons/email.svg';
 import PasswordIcon from '../../../../assets/icons/lock.svg';
 import { MdChevronRight } from "react-icons/md";
-import { HiOutlineUser } from "react-icons/hi";
 import { MdError } from "react-icons/md";
 import { ROUTES } from "../../../../routing/routes";
 import PropTypes from 'prop-types';
@@ -19,14 +18,14 @@ const StudentSignupForm = ({toggleAuthView}) => {
 
     const onSubmit = async (data) => {
         setLoading(true);
-        const { email, password, firstName, lastName } = data;
+        const { email, password } = data;
     
         // Sign up the user with Supabase
-        const { user, error: signUpError } = await supabase.auth.signUp({
+        const { error: signUpError } = await supabase.auth.signUp({
             email,
             password,
             options: {
-                emailRedirectTo: 'https://gclient-lilac.vercel.app/student/verify-email'
+                emailRedirectTo: 'http://localhost:5173/student/onboarding'
             }
         });
     
@@ -35,29 +34,10 @@ const StudentSignupForm = ({toggleAuthView}) => {
             console.error('Signup error:', signUpError);
             setLoading(false);
             return;
-        }
-    
-        // Create a record in the users table
-        const { error: insertError } = await supabase
-            .from('users')
-            .insert([
-                {
-                    auth_id: user.id, // Link to the Supabase user ID
-                    email: user.email,
-                    first_name: firstName,
-                    last_name: lastName,
-                    role: 'student'
-                },
-            ]);
-    
-        if (insertError) {
-            toast.error('Failed to create user record: ' + insertError.message);
-            console.error('Insert error:', insertError);
         } else {
             toast.success('Signup successful!');
-            navigate(ROUTES.COMMON.STVERIFY_EMAIL); // Redirect to verification page
+            navigate(ROUTES.COMMON.STOTP); // Redirect to verification page
         }
-    
         setLoading(false);
     };
 
@@ -71,36 +51,12 @@ const StudentSignupForm = ({toggleAuthView}) => {
                 </button>
             </div>
             <div className="form-container w-[80%] flex flex-col items-center justify-center gap-[2rem]">
-                    <div className="names w-[95%] flex items-center justify-between ">
-                        <div className="firstname w-[45%] h-[3rem] flex flex-col">
-                            <div className="firstname w-full flex items-center gap-[0.5rem] bg-[var(--input-bg)] border-b-[1px] border-[var(--primary-blue)] rounded-t-[0.3rem] p-[0.5rem]">
-                                <HiOutlineUser color="#3f3f3f" size={22}/>
-                                <input 
-                                    {...register("firstname", { required: true })} placeholder="First Name"
-                                    className="w-[90%] bg-transparent border-none outline-none text-[1rem] text-[var(--text-grey)]"
-                                />  
-                                {errors.firstname && <MdError color="var(--primary-red)" size={22}/>}
-                            </div>
-                            {errors.firstname && <p className='error-message text-[0.7rem] text-[var(--primary-red)]'>First Name is required</p>}
-                        </div>
-                        <div className="lastname w-[45%] h-[3rem] flex flex-col">
-                            <div className="lastname w-full flex items-center gap-[0.5rem] bg-[var(--input-bg)] border-b-[1px] border-[var(--primary-blue)] rounded-t-[0.3rem] p-[0.5rem]">
-                                <HiOutlineUser color="#3f3f3f" size={22}/>
-                                <input 
-                                    {...register("lastname", { required: true })} placeholder="Last Name"
-                                    className="w-[90%] bg-transparent border-none outline-none text-[1rem] text-[var(--text-grey)]"
-                                />
-                                {errors.lastname && <MdError color="var(--primary-red)" size={22}/>}
-                            </div>
-                            {errors.lastname && <p className='error-message text-[0.7rem] text-[var(--primary-red)]'>Last Name is required</p>}
-                        </div>
-                    </div>
-                    <div className="w-[95%] h-[3rem] flex flex-col">
-                        <div className="email w-full flex items-center gap-[0.5rem] bg-[var(--input-bg)] border-b-[1px] border-[var(--primary-blue)] rounded-t-[0.3rem] p-[0.5rem]">
-                            <img src={EmailIcon} alt="email" />
-                            <input 
-                                {...register("email", { required: true })} 
-                                placeholder="Email"
+                <div className="w-[95%] h-[3rem] flex flex-col">
+                    <div className="email w-full flex items-center gap-[0.5rem] bg-[var(--input-bg)] border-b-[1px] border-[var(--primary-blue)] rounded-t-[0.3rem] p-[0.5rem]">
+                        <img src={EmailIcon} alt="email" />
+                        <input 
+                            {...register("email", { required: true })} 
+                            placeholder="Email"
                                 className="w-full bg-transparent border-none outline-none text-[1rem] text-[var(--text-grey)]"
                             />
                             {errors.email && <MdError color="var(--primary-red)" size={22}/>}

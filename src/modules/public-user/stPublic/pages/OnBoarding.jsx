@@ -57,7 +57,6 @@ const OnBoarding = () => {
         if (existingUser) {
             // User already exists, handle accordingly (e.g., update or skip)
             toast.info('User already exists. Proceeding with existing user.');
-            // Optionally, you can update the user details if needed
         } else {
             // Insert the new user record
             const { error } = await supabase.from('users').insert([
@@ -92,7 +91,7 @@ const OnBoarding = () => {
                 console.error('Course insert error:', courseError);
             } else {
                 toast.success('Onboarding completed successfully!');
-                navigate(ROUTES.STUDENT.DASHBOARD); // Redirect to the dashboard or appropriate page
+                navigate(ROUTES.STUDENT.DASHBOARD); // Redirect to the dashboard
             }
         } else {
             toast.success('Onboarding completed successfully without preferred courses!');
@@ -107,8 +106,8 @@ const OnBoarding = () => {
     }, []);
 
     return (
-        <div className="onboarding-container w-full h-full mb-[3rem] flex items-center justify-center">
-            <div className='w-[80%] mx-auto flex flex-col items-center justify-center gap-[2rem] mt-[2rem]'>
+        <div className="onboarding-container w-full h-full pb-[3rem] flex items-center justify-center bg-[var(--primary-grey)]">
+            <div className='w-[80%] mx-auto flex flex-col items-center justify-center gap-[2rem] mt-[2rem] bg-[var(--bg-white)] rounded-[0.3rem] px-[1rem] pt-[1.5rem] pb-[3rem]'>
                 <h2 className="text-[1.5rem] font-bold mb-[1rem]">Complete Your Onboarding</h2>
                 <div className="w-[90%] flex flex-col gap-[1rem]">
                     <p>Welcome and thank you for signing up! </p>

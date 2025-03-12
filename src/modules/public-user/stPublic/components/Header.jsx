@@ -159,7 +159,7 @@ const Header = () => {
                     </Link>
                     <nav className="flex gap-[2.5rem] text-[1.25rem]">
                         <Link to={ROUTES.COMMON.HOME}>Home</Link>
-                        <Link to={ROUTES.STUDENT.COURSES}>Courses</Link>
+                        {/* <Link to={ROUTES.STUDENT.COURSES}>Courses</Link> */}
                     </nav>
                 </div>
                 <div className='flex items-center w-[30%] justify-end'>

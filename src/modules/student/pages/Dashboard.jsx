@@ -50,7 +50,7 @@ const Dashboard = () => {
                 </div>
             </div>
             <div className="bottom flex flex-col justify-start items-center w-[100%] h-[90%] bg-[var(--bg-white)]">
-                <div className="content w-[80%] mx-auto h-[100%] bg-[var(--bg-white)]">
+                <div className="content w-[80%] mx-auto h-[100%] bg-[var(--bg-white)] mt-[2rem]">
                     {activeTab === 'learning' && <MyLearning />}
                     {activeTab === 'certificates' && <Certificates />}
                     {activeTab === 'transactions' && <Transactions />}

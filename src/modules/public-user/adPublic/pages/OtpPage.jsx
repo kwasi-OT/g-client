@@ -1,9 +1,9 @@
-import Otp from "../components/Otp"
 import { ROUTES } from "../../../../routing/routes"
 import { Link } from "react-router-dom"
 import Logo from "../../../../assets/footer-logo.png"
 import LeftSectionImg from "../../../../assets/otpimage.png"
 import { IoMdArrowBack } from "react-icons/io";
+import SignupSuccess from "../../stPublic/components/SignupSuccess"
 
 const OtpPage = () => {
     return (
@@ -15,7 +15,7 @@ const OtpPage = () => {
                             <img src={Logo} alt="Logo" className='w-[100%] h-[100%] ml-[0.8rem]'/>
                         </Link>
                         <h1 className="text-[1.5rem] font-[400] text-[white] ml-[0.8rem]">
-                            Secure Your Account with OTP Verification. Simply enter the code we’ve sent to ensure your information stays safe and protected.
+                            Secure Your Account with email Verification.
                         </h1>
                     </div>
                 </div>
@@ -32,7 +32,7 @@ const OtpPage = () => {
                         </Link>
                     </div>
                     <div className='w-[100%] h-[90%] mt-[-4rem] flex justify-center items-center'>
-                        <Otp />
+                        <SignupSuccess />
                     </div>
                 </div>
             </div>

@@ -11,6 +11,7 @@ export const ROUTES = {
         STVERIFY_EMAIL: '/student/verify-email',
         INSTVERIFY_EMAIL: '/instructor/verify-email',
         STONBOARDING: '/student/onboarding',
+        INSONBOARDING: 'instructor/onboarding',
         FORGOT_PASSWORD: '/forgot-password',
         RESET_PASSWORD: '/reset-password',
         UNAUTHORIZED: '/unauthorized',

@@ -29,7 +29,7 @@ const InstAuth = () => {
                         </h1>
                     </div>
                 </div>
-                <div className="middle w-[100%] h-[30%] absolute top-[21%] right-[35%]">
+                <div className="middle w-[50%] h-[30%] absolute top-[21%] right-[60%]">
                     <img src={WavesImg} alt="waves image" className="w-[100%] h-[100%] object-contain" />
                 </div>
                 <div className="bottom w-[100%] h-[65%] overflow-hidden">

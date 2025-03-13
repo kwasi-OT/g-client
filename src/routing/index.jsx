@@ -17,7 +17,7 @@ import { PublicRoutes } from './public-routes';
 
 // Module-specific Routes
 // import { AdminPublicRoutes } from './admin/public-routes';
-import { AdminDashboardRoutes } from './admin/dashboard-routes';
+// import { AdminDashboardRoutes } from './admin/dashboard-routes';
 
 // User Roles
 import { USER_ROLES, ROUTES } from './routes';
@@ -65,15 +65,15 @@ const router = createBrowserRouter([
                 ]
             },
             {
-                path: 'admin',
+                path: 'instructor',
                 element: (
-                    <ProtectedRoute allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN]}>
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN, USER_ROLES.INSTRUCTOR]}>
                         <AdminDashboardLayout />
                     </ProtectedRoute>
                 ),
                 children: [
-                    ...AdminDashboardRoutes.map(route => ({
-                        ...route,
+                    {
+                        path: 'dashboard',
                         element: (
                             <Suspense fallback={<Blocks
                                 height="80"
@@ -87,7 +87,7 @@ const router = createBrowserRouter([
                                 <InsDashboard />
                             </Suspense>
                         )
-                    }))
+                    }
                 ]
             },
             {

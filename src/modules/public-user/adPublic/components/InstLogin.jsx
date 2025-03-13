@@ -34,7 +34,7 @@ const InstLogin = () => {
         // route to dashboard if successful
         if (!error) {
             toast.success('Login successful');
-            navigate(ROUTES.ADMIN.DASHBOARD);
+            navigate(ROUTES.INSTRUCTOR.DASHBOARD);
         }
         if (error) {
             toast.error('Login failed');

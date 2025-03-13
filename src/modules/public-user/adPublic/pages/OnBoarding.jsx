@@ -61,10 +61,10 @@ const OnBoarding = () => {
                 return;
             } else {
                 toast.success('Onboarding completed successfully!');
-                navigate(ROUTES.ADMIN.DASHBOARD);
+                navigate(ROUTES.INSTRUCTOR.DASHBOARD);
         
             }
-            navigate(ROUTES.ADMIN.DASHBOARD);
+            navigate(ROUTES.INSTRUCTOR.DASHBOARD);
         }
         setLoading(false);
     };

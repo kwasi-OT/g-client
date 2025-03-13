@@ -1,41 +1,60 @@
 import { LuLayoutDashboard } from "react-icons/lu";
-import {NavLink, useLocation } from "react-router-dom";
-import TestingImage from '../../../assets/testing.svg';
-import { MdChevronLeft, MdChevronRight } from "react-icons/md";
-import {ROUTES} from '../../../routing/routes';
+import { useState } from "react";
+import MyLearning from "../components/MyLearning";
+import Certificates from "../components/Certificates";
+import Profile from "../components/Profile";
+import Transactions from "../components/Transactions";
 
 const Dashboard = () => {
-    const location = useLocation();
-    console.log(location.pathname);
+    const [activeTab, setActiveTab] = useState('learning')
+
+    // handle tab selection
+    const handleTabChange = (tab) => {
+        setActiveTab(tab)
+    };
 
     return (
-        <div className="w-full mx-auto h-[90vh]">
-            <div className="top w-[100%] mx-auto h-[30%] flex flex-col justify-center bg-[var(--primary-blue)]">
-                <div className="w-[80%] mx-auto h-[20%] flex items-center justify-start gap-[0.6rem] mb-[2.5rem]">
-                    <LuLayoutDashboard size={45} color="white" />
-                    <h1 className="text-[2.5rem] font-[700] text-[white]">Dashboard</h1>
+        <div className="w-full mx-auto h-[70vh]">
+            <div className="top w-[100%] mx-auto h-[10%] flex flex-col justify-center bg-[var(--primary-blue)]">
+                <div className="w-[80%] mx-auto h-[100%] flex items-center justify-start gap-[0.6rem]">
+                    <div className="w-[20%] flex items-center gap-[0.6rem]">
+                        <LuLayoutDashboard size={40} color="white" />
+                        <h1 className="text-[2rem] font-[700] text-[white]">Dashboard</h1>
+                    </div>
+                    <div className="w-[80%] h-[50%] mt-[2rem] flex items-center justify-start gap-[1rem]">
+                        <button
+                            onClick={() => handleTabChange('learning')}
+                            className={activeTab === 'learning' ? 'bg-[var(--light-blue)] text-[var(--primary-blue)] hover:bg-[var(--light-blue)] hover:text-[var(--primary-blue)] rounded-t-[1rem] rounded-b-[0]' : 'hover:bg-[var(--light-blue)] hover:text-[var(--primary-blue)] rounded-t-[1rem] rounded-b-[0]'}
+                        >
+                            My Learning
+                        </button>
+                        <button 
+                            onClick={() => handleTabChange('certificates')}
+                            className={activeTab === 'certificates' ? 'bg-[var(--light-blue)] text-[var(--primary-blue)] hover:bg-[var(--light-blue)] hover:text-[var(--primary-blue)] rounded-t-[1rem] rounded-b-[0]' : 'hover:bg-[var(--light-blue)] hover:text-[var(--primary-blue)] rounded-t-[1rem] rounded-b-[0]'}
+                        >
+                            Certificates
+                        </button>
+                        <button
+                            onClick={() => handleTabChange('transactions')}
+                            className={activeTab === 'transactions' ? 'bg-[var(--light-blue)] text-[var(--primary-blue)] hover:bg-[var(--light-blue)] hover:text-[var(--primary-blue)] rounded-t-[1rem] rounded-b-[0]' : 'hover:bg-[var(--light-blue)] hover:text-[var(--primary-blue)] rounded-t-[1rem] rounded-b-[0]'}
+                        >
+                            Transactions
+                        </button>
+                        <button
+                            onClick={() => handleTabChange('profile')}
+                            className={activeTab === 'profile' ? 'bg-[var(--light-blue)] text-[var(--primary-blue)] hover:bg-[var(--light-blue)] hover:text-[var(--primary-blue)] rounded-t-[1rem] rounded-b-[0]' : 'hover:bg-[var(--light-blue)] hover:text-[var(--primary-blue)] rounded-t-[1rem] rounded-b-[0]'}
+                        >
+                            Profile
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div className="bottom flex flex-col justify-center items-center w-[100%] mx-auto h-[70%] bg-[var(--bg-white)]">
-                <div className="content absolute top-[30%] w-[80%] mx-auto h-[50%] bg-[var(--bg-white)]">
-                    <div className="w-[100%] h-[20%] flex items-center justify-start gap-[2rem]">
-                        <NavLink to={ROUTES.STUDENT.REGISTER} className="w-[10%] h-[100%] flex items-center justify-center text-[black]">Application</NavLink>
-                        <NavLink to={ROUTES.STUDENT.PROFILE} className="w-[10%] h-[100%] flex items-center justify-center text-[black]">Profile</NavLink>
-                    </div>
-                    <div className="w-[100%] h-[80%] flex flex-col items-center justify-center gap-[2rem]">
-                        <img src={TestingImage} alt="testing" className="w-[50%] h-[50%]" />
-                        <p>!!! OOPs no application</p>
-                        <div className="w-[100%] h-[20%] flex items-center justify-center gap-[2rem]">
-                            <button className="flex items-center justify-center gap-[0.5rem]">
-                                <MdChevronLeft size={25} />
-                                Back
-                            </button>
-                            <button className="flex items-center justify-center gap-[0.5rem]">
-                                Start new application
-                                <MdChevronRight size={25} />
-                            </button>
-                        </div>
-                    </div>
+            <div className="bottom flex flex-col justify-start items-center w-[100%] h-[90%] bg-[var(--bg-white)]">
+                <div className="content w-[80%] mx-auto h-[100%] bg-[var(--bg-white)]">
+                    {activeTab === 'learning' && <MyLearning />}
+                    {activeTab === 'certificates' && <Certificates />}
+                    {activeTab === 'transactions' && <Transactions />}
+                    {activeTab === 'profile' && <Profile />}
                 </div>
             </div>
         </div>

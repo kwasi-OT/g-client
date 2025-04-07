@@ -42,6 +42,7 @@ const OnBoarding = () => {
         if (existingUser) {
             // User already exists, handle accordingly (e.g., update or skip)
             toast.info('User already exists. Proceeding with existing user.');
+            navigate(ROUTES.INSTRUCTOR.DASHBOARD);
         } else {
             // Insert the new user record
             const { error } = await supabase.from('users').insert([

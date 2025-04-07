@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 const ProtectedRoute = ({ 
     children, 
-    allowedRoles = [USER_ROLES.STUDENT, USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN], 
+    allowedRoles = [USER_ROLES.STUDENT, USER_ROLES.INSTRUCTOR, USER_ROLES.SUPER_ADMIN], 
     redirectPath = ROUTES.COMMON.UNAUTHORIZED 
 }) => {
     const location = useLocation();

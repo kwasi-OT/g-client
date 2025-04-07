@@ -15,8 +15,8 @@ import { ROUTES } from '../../../routing/routes';
 
 const Dashboard = () => {
     const [activeTab, setActiveTab] = useState('dashboard');
-    const [setUser] = useState(null);
-    const [setInstructor] = useState(null);
+    // const [setUser] = useState(null);
+    const [instructor, setInstructor] = useState(null);
     const navigate = useNavigate();
 
     // fetch user
@@ -28,7 +28,7 @@ const Dashboard = () => {
                 toast.error('failed to fetch user')
                 navigate(ROUTES.INSTRUCTOR.HOME)
             } else {
-                setUser(user)
+                console.log('Fetched user data2:', user);
             }
 
             // get instructor details based on auth user
@@ -37,17 +37,19 @@ const Dashboard = () => {
             .select('*')
             .eq('auth_id', user.id)
             .single();
-
+            
+            console.log('Fetched instructor data:', instructor);
             if(instError) {
                 toast.error('Failed to fetch instructor data');
                 console.error('failed to get instructor data:', instError);
             } else {
                 setInstructor(instructor);
+                console.log('Fetched instructor data:', instructor);
             }
         }
 
         fetchUser();
-    }, [navigate, setInstructor, setUser]);
+    }, [navigate]);
 
     // handle tab change
     const handleTabChange = (tab) => {
@@ -128,21 +130,20 @@ const Dashboard = () => {
                         <div className="search w-[50%] h-[50%] border border-[var(--primary-grey)] rounded-[1rem]"></div>
                         <div className="user-profile w-[15%] h-[50%] flex items-center justify-end gap-[1rem]">
                             <MdOutlineNotifications size={30} color="var(--primary-grey)"/>
-                            {/* {user.profile_picture ? 
-                                <img src={user.profile_picture} alt="User Profile" className="w-[100%] h-[100%] object-cover rounded-[50%]" />
-                                : <div className='rounded-full bg-[var(--primary-blue)] text-[var(--bg-white)] w-[2.5rem] h-[2.5rem] flex items-center justify-center text-[1rem] font-[400]'>
-                                {user.first_name[0]}{user.last_name[0]}
+                            {instructor?.profile_picture ? 
+                                <img src={instructor?.profile_picture} alt="User Profile" className="w-[100%] h-[100%] object-cover rounded-[50%]" />
+                                : <div className='rounded-full bg-[var(--primary-blue)] text-[var(--bg-white)] w-[3rem] h-[2rem] flex items-center justify-center text-[1rem] font-[400]'>
+                                    {instructor?.first_name[0]}{instructor?.last_name[0]}
                                 </div>
-                            } */}
-                            {/* <p>{user.first_name}</p> */}
+                            }
+                            <p>{instructor?.first_name}</p>
                         </div>
                     </div>
                 </div>
                 <div className="content w-[90%] h-[90%] flex flex-col items-center justify-between">
                     <div className="top w-[100%] h-[10%]">
                         <h2 className="twm-s-title">
-                            {/* {activeTab === 'dashboard' && 'Welcome back, ' + user.first_name + '!'} */}
-                            {activeTab === 'dashboard' && 'Welcome back!'}
+                            {activeTab === 'dashboard' && 'Welcome back, ' + instructor?.first_name + '!'}
                             {activeTab === 'categories' && 'Categories'}
                             {activeTab === 'settings' && 'Settings'}
                             {activeTab === 'students' && 'Students'}

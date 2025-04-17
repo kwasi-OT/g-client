@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import FormInput from "../../../../utils/FormInput";
+import { useForm } from 'react-hook-form';
 import EmailIcon from '../../../../assets/icons/email.svg';
 import PasswordIcon from '../../../../assets/icons/lock.svg';
 import { MdChevronRight } from "react-icons/md";
+import { MdError } from "react-icons/md";
 import ForgotPassword from "./ForgotPassword";
 import PropTypes from 'prop-types';
 import { supabase } from '../../../../server/supabaseClient';
@@ -13,40 +14,9 @@ import { ROUTES } from '../../../../routing/routes';
 
 const StudentLoginForm = ({ toggleAuthView }) => {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
-    const [errors, setErrors] = useState({});
     const [isLoading, setIsLoading] = useState(false);
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
-    
-    
-    // form validation
-    const validateForm = () => {
-        const newErrors = {};
-        if (!formData.email) {
-            newErrors.email = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Email address is invalid';
-        }
-
-        if (!formData.password) {
-            newErrors.password = 'Password is required';
-        } else if (formData.password.length < 6) {
-            newErrors.password = 'Password must be at least 6 characters';
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    }
-
-    // Add error display
-    {errors && (
-        <div className="text-[var(--primary-red)] text-[0.5rem]">
-            {errors}
-        </div>
-    )}
 
 
     // handle form submission
@@ -54,30 +24,18 @@ const StudentLoginForm = ({ toggleAuthView }) => {
         setIsLoading(true);
         const { email, password } = data;
 
-        if(validateForm()) {
-            const { error } = await supabase.auth.signInWithPassword({
-                email,
-                password,
-            });
-            if (error) {
-                toast.error('Login failed: ' + error.message);
-                console.error('Login error:', error);
-            } else {
-                toast.success('Login successful!');
-                navigate(ROUTES.STUDENT.DASHBOARD);
-            }
-        }
-
-        setIsLoading(false);
-    };
-
-    // handle change event
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
+        const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
         });
+        if (error) {
+            toast.error('Login failed: ' + error.message);
+            console.error('Login error:', error);
+        } else {
+            toast.success('Login successful!');
+            navigate(ROUTES.STUDENT.DASHBOARD);
+        }
+        setIsLoading(false);
     };
 
     // toggle forgot password
@@ -99,38 +57,34 @@ const StudentLoginForm = ({ toggleAuthView }) => {
                         <div className="flex items-center gap-[0.5rem]">
                             <p>Or</p>
                         </div> */}
-                        <form className="w-full flex flex-col" onSubmit={onSubmit}>
-                            <div className='w-full flex flex-col'>
-                                <div className="w-full py-[0.2rem] px-[0.5rem] rounded-[0.3rem] flex items-center gap-[0.5rem] bg-[var(--input-bg)] border border-[var(--input-border)] focus:border-[var(--primary-blue)] active:bg-[var(--input-active-bg)] box-border">
+                        <form className="w-full flex flex-col gap-[1rem]" onSubmit={handleSubmit(onSubmit)}>
+                            <div className='w-full flex items-center gap-[0.5rem] bg-[var(--input-bg)] border border-[var(--input-border)] focus:border-[var(--primary-blue)] active:bg-[var(--input-active-bg)] box-border rounded-[0.3rem]'>
+                                <div className="w-full py-[0.2rem] px-[0.5rem]  flex items-center gap-[0.5rem] bg-[var(--input-bg)]">
                                     <img src={EmailIcon} alt="email icon" />
-                                    <FormInput 
+                                    <input 
                                         type='email' 
                                         placeholder='Email'
-                                        value={formData.email} 
-                                        onChange={handleChange} 
-                                        name="email"
+                                        {...register("email", { required: true })}
+                                        className="w-full bg-transparent border-none outline-none text-[1rem] text-[var(--text-grey)]"
                                     />
                                 </div>
-                                <p className='text-[var(--primary-red)] text-[0.7rem]'>
-                                    {errors.email}
-                                </p>
+                                {errors.email && <MdError color="var(--primary-red)" size={22}/>}
                             </div>
-                            <div className='w-full flex flex-col'>
-                                <div className="w-full py-[0.2rem] px-[0.5rem] rounded-[0.3rem] flex items-center gap-[0.5rem] bg-[var(--input-bg)] border border-[var(--input-border)] focus:border-[var(--primary-blue)] active:bg-[var(--input-active-bg)] box-border">
+                            <div className='w-full flex items-center gap-[0.5rem] rounded-[0.3rem] flex items-center gap-[0.5rem] bg-[var(--input-bg)] border border-[var(--input-border)] focus:border-[var(--primary-blue)] active:bg-[var(--input-active-bg)] box-border'>
+                                <div className="w-full py-[0.2rem] px-[0.5rem]  flex items-center gap-[0.5rem] bg-[var(--input-bg)]">
                                     <img src={PasswordIcon} alt="password icon" />
-                                    <FormInput 
+                                    <input 
                                         type='password' 
                                         placeholder='Password' 
-                                        value={formData.password} 
-                                        onChange={handleChange} 
-                                        name="password"
+                                        {...register("password", { required: true })}
+                                        className="w-full bg-transparent border-none outline-none text-[1rem] text-[var(--text-grey)]"
                                     />
                                 </div>
-                                {errors.password && (
-                                    <p className='text-[var(--primary-red)] text-[0.7rem]'>{errors.password}</p>
-                                )}
+                                {errors.password && <MdError color="var(--primary-red)" size={22}/>}
                             </div>
-                            <p className="text-[0.7rem] font-[600] text-[var(--primary-blue)] cursor-pointer hover:underline" onClick={toggleForgotPassword}>Forgot password?</p>
+                            <p className="text-[0.7rem] font-[600] text-[var(--primary-blue)] cursor-pointer hover:underline" onClick={toggleForgotPassword}>
+                                Forgot password?
+                            </p>
                             <button className="w-full flex items-center justify-center gap-[0.5rem] bg-[var(--primary-blue)] text-[var(--bg-white)] py-[0.5rem] rounded-[0.3rem]" 
                             type='submit'
                             aria-busy={isLoading}

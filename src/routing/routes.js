@@ -11,6 +11,7 @@ export const ROUTES = {
         STVERIFY_EMAIL: '/student/verify-email',
         INSTVERIFY_EMAIL: '/instructor/verify-email',
         STONBOARDING: '/student/onboarding',
+        INSONBOARDING: 'instructor/onboarding',
         FORGOT_PASSWORD: '/forgot-password',
         RESET_PASSWORD: '/reset-password',
         UNAUTHORIZED: '/unauthorized',
@@ -24,10 +25,10 @@ export const ROUTES = {
         REGISTER: '/student/register',
         COURSES: '/student/courses'
     },
-    ADMIN: {
-        BASE: '/admin',
-        HOME: '/admin/home',
-        DASHBOARD: '/admin/dashboard',
+    INSTRUCTOR: {
+        BASE: '/instructor',
+        HOME: '/instructor/home',
+        DASHBOARD: '/instructor/dashboard',
         USERS: '/admin/users',
         SETTINGS: '/admin/settings'
     }
@@ -35,6 +36,6 @@ export const ROUTES = {
 
 export const USER_ROLES = {
     STUDENT: 'student',
-    ADMIN: 'admin',
+    INSTRUCTOR: 'instructor',
     SUPER_ADMIN: 'super_admin'
 };

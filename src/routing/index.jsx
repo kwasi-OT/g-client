@@ -17,14 +17,14 @@ import { PublicRoutes } from './public-routes';
 
 // Module-specific Routes
 // import { AdminPublicRoutes } from './admin/public-routes';
-import { AdminDashboardRoutes } from './admin/dashboard-routes';
+// import { AdminDashboardRoutes } from './admin/dashboard-routes';
 
 // User Roles
 import { USER_ROLES, ROUTES } from './routes';
 
-const Application = lazy(() => import('../modules/student/components/Application'));
-const Profile = lazy(() => import('../modules/student/components/Profile'));
+
 const Dashboard = lazy(() => import('../modules/student/pages/Dashboard'));
+const InsDashboard = lazy(() => import('../modules/admin/pages/Dashboard'))
 
 const router = createBrowserRouter([
     {
@@ -62,62 +62,18 @@ const router = createBrowserRouter([
                             </Suspense>
                         )
                     },
-                    {
-                        path: 'student/register',
-                        element: (
-                            <Suspense fallback={
-                                <Blocks
-                                    height="80"
-                                    width="80"
-                                    color="#4fa94d"
-                                    ariaLabel="blocks-loading"
-                                    wrapperStyle={{ 
-                                        justifyContent: 'center', 
-                                        alignItems: 'center', 
-                                        height: '100vh' 
-                                    }}
-                                    wrapperClass="flex justify-center items-center h-screen"
-                                    visible={true} 
-                                />
-                            }>
-                                <Application />
-                            </Suspense>
-                        )
-                    },
-                    {
-                        path: 'student/profile',
-                        element: (
-                            <Suspense fallback={
-                                <Blocks
-                                    height="80"
-                                    width="80"
-                                    color="#4fa94d"
-                                    ariaLabel="blocks-loading"
-                                    wrapperStyle={{ 
-                                        justifyContent: 'center', 
-                                        alignItems: 'center', 
-                                        height: '100vh' 
-                                    }}
-                                    wrapperClass="flex justify-center items-center h-screen"
-                                    visible={true} 
-                                />
-                            }>
-                                <Profile />
-                            </Suspense>
-                        )
-                    }
                 ]
             },
             {
-                path: 'admin',
+                path: 'instructor',
                 element: (
-                    <ProtectedRoute allowedRoles={[USER_ROLES.ADMIN, USER_ROLES.SUPER_ADMIN]}>
+                    <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN, USER_ROLES.INSTRUCTOR]}>
                         <AdminDashboardLayout />
                     </ProtectedRoute>
                 ),
                 children: [
-                    ...AdminDashboardRoutes.map(route => ({
-                        ...route,
+                    {
+                        path: 'dashboard',
                         element: (
                             <Suspense fallback={<Blocks
                                 height="80"
@@ -128,10 +84,10 @@ const router = createBrowserRouter([
                                 wrapperClass="flex justify-center items-center h-screen"
                                 visible={true} />}
                             >
-                                {route.element}
+                                <InsDashboard />
                             </Suspense>
                         )
-                    }))
+                    }
                 ]
             },
             {

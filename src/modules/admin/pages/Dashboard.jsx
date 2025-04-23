@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import Logo from '../../../assets/gclient-logo.png'
 import { RiDashboardHorizontalLine } from 'react-icons/ri';
 import { HiOutlineUserGroup } from 'react-icons/hi';
-import { LiaChalkboardTeacherSolid } from 'react-icons/lia';
 import { GiBookshelf } from 'react-icons/gi';
-import { MdOutlineCategory, MdOutlineNotifications } from 'react-icons/md';
+import { MdOutlineNotifications } from 'react-icons/md';
+import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { LuSettings } from "react-icons/lu";
 import { IoPower } from "react-icons/io5";
 import ClockAPI from '../components/Time'
@@ -75,12 +75,12 @@ const Dashboard = () => {
                             {activeTab === 'dashboard' ? <RiDashboardHorizontalLine size={24} color="var(--primary-blue)"/> : <RiDashboardHorizontalLine size={24} color="white"/>}
                             Dashboard
                         </button>
-                        <button onClick={() => handleTabChange('instructors')} className={activeTab === 'instructors' ? 'active bg-[white] text-[1rem] leading-[1.5rem] text-[var(--primary-blue)] font-[700] w-full rounded-[0.3rem] flex justify-start items-center gap-[1rem]' : 'w-full rounded-[0.3rem] bg-[var(--primary-blue)] text-[1rem] leading-[1.5rem] text-[white] flex justify-start items-center gap-[1rem]'}>
-                            {activeTab === 'instructors' ? 
-                                <LiaChalkboardTeacherSolid size={24} color="var(--primary-blue)"/> : 
-                                <LiaChalkboardTeacherSolid size={24} color="white"/>
+                        <button onClick={() => handleTabChange('finance')} className={activeTab === 'finance' ? 'active bg-[white] text-[1rem] leading-[1.5rem] text-[var(--primary-blue)] font-[700] w-full rounded-[0.3rem] flex justify-start items-center gap-[1rem]' : 'w-full rounded-[0.3rem] bg-[var(--primary-blue)] text-[1rem] leading-[1.5rem] text-[white] flex justify-start items-center gap-[1rem]'}>
+                            {activeTab === 'finance' ? 
+                                <FaRegMoneyBillAlt size={24} color="var(--primary-blue)"/> : 
+                                <FaRegMoneyBillAlt size={24} color="white"/>
                             }
-                            Instructors
+                            Finance
                         </button>
                         <button onClick={() => handleTabChange('students')} className={activeTab === 'students' ? 'active bg-[white] text-[1rem] leading-[1.5rem] text-[var(--primary-blue)] font-[700] w-full rounded-[0.3rem] flex justify-start items-center gap-[1rem]' : 'w-full rounded-[0.3rem] bg-[var(--primary-blue)] text-[1rem] leading-[1.5rem] text-[white] flex justify-start items-center gap-[1rem]'}>
                             {activeTab === 'students' ? 
@@ -96,13 +96,13 @@ const Dashboard = () => {
                             }
                             Courses
                         </button>
-                        <button onClick={() => handleTabChange('categories')} className={activeTab === 'categories' ? 'active bg-[white] text-[1rem] leading-[1.5rem] text-[var(--primary-blue)] font-[700] w-full rounded-[0.3rem] flex justify-start items-center gap-[1rem]' : 'w-full rounded-[0.3rem] bg-[var(--primary-blue)] text-[1rem] leading-[1.5rem] text-[white] flex justify-start items-center gap-[1rem]'}>
+                        {/* <button onClick={() => handleTabChange('categories')} className={activeTab === 'categories' ? 'active bg-[white] text-[1rem] leading-[1.5rem] text-[var(--primary-blue)] font-[700] w-full rounded-[0.3rem] flex justify-start items-center gap-[1rem]' : 'w-full rounded-[0.3rem] bg-[var(--primary-blue)] text-[1rem] leading-[1.5rem] text-[white] flex justify-start items-center gap-[1rem]'}>
                             {activeTab === 'categories' ? 
                                 <MdOutlineCategory size={24} color="var(--primary-blue)"/> : 
                                 <MdOutlineCategory size={24} color="white"/>
                             }
                             Categories
-                        </button>
+                        </button> */}
                     </div>
                 </div>
                 <div className="sidebar-bottom w-[90%] h-[20%] flex flex-col items-start justify-start mb-[1rem]">
@@ -144,11 +144,11 @@ const Dashboard = () => {
                     <div className="top w-[100%] h-[10%]">
                         <h2 className="twm-s-title">
                             {activeTab === 'dashboard' && 'Welcome back, ' + instructor?.first_name + '!'}
-                            {activeTab === 'categories' && 'Categories'}
+                            {/* {activeTab === 'categories' && 'Categories'} */}
                             {activeTab === 'settings' && 'Settings'}
                             {activeTab === 'students' && 'Students'}
                             {activeTab === 'courses' && 'Courses'}
-                            {activeTab === 'instructors' && 'Instructors'}
+                            {activeTab === 'finance' && 'Finance'}
                         </h2>
                     </div>
                     {/* <div className="bottom w-[100%] h-[90%]">

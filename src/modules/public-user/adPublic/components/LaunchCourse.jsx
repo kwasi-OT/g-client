@@ -10,7 +10,7 @@ const LaunchCourse = () => {
                 </p>
                 <h3>How we help you</h3>
                 <p>
-                Our custom coupon tool lets you offer enrollment incentives while our global promotions drive traffic to courses. There’s even more opportunity for courses chosen for Udemy Business.
+                Our custom coupon tool lets you offer enrollment incentives while our global promotions drive traffic to courses. There’s even more opportunity for courses chosen for GClient Business.
                 </p>
             </div>
             <div className='right w-[60%] h-[100%] flex items-center justify-center'>

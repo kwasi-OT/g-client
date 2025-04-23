@@ -12,6 +12,11 @@ import { supabase } from '../../../server/supabaseClient'
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../routing/routes';
+import Students from '../components/Students';
+import Courses from '../components/Courses';
+import Finance from '../components/Finance';
+import Settings from '../components/Settings';
+import DashboardOverview from '../components/DashboardOverview';
 
 const Dashboard = () => {
     const [activeTab, setActiveTab] = useState('dashboard');
@@ -96,13 +101,6 @@ const Dashboard = () => {
                             }
                             Courses
                         </button>
-                        {/* <button onClick={() => handleTabChange('categories')} className={activeTab === 'categories' ? 'active bg-[white] text-[1rem] leading-[1.5rem] text-[var(--primary-blue)] font-[700] w-full rounded-[0.3rem] flex justify-start items-center gap-[1rem]' : 'w-full rounded-[0.3rem] bg-[var(--primary-blue)] text-[1rem] leading-[1.5rem] text-[white] flex justify-start items-center gap-[1rem]'}>
-                            {activeTab === 'categories' ? 
-                                <MdOutlineCategory size={24} color="var(--primary-blue)"/> : 
-                                <MdOutlineCategory size={24} color="white"/>
-                            }
-                            Categories
-                        </button> */}
                     </div>
                 </div>
                 <div className="sidebar-bottom w-[90%] h-[20%] flex flex-col items-start justify-start mb-[1rem]">
@@ -144,21 +142,19 @@ const Dashboard = () => {
                     <div className="top w-[100%] h-[10%]">
                         <h2 className="twm-s-title">
                             {activeTab === 'dashboard' && 'Welcome back, ' + instructor?.first_name + '!'}
-                            {/* {activeTab === 'categories' && 'Categories'} */}
                             {activeTab === 'settings' && 'Settings'}
                             {activeTab === 'students' && 'Students'}
                             {activeTab === 'courses' && 'Courses'}
                             {activeTab === 'finance' && 'Finance'}
                         </h2>
                     </div>
-                    {/* <div className="bottom w-[100%] h-[90%]">
-                        {activeTab === 'dashboard' && <Dashboard />}
-                        {activeTab === 'instructors' && <Instructors />}
+                    <div className="bottom w-[100%] h-[90%]">
+                        {activeTab === 'dashboard' && <DashboardOverview />}
+                        {activeTab === 'finance' && <Finance />}
                         {activeTab === 'students' && <Students />}
                         {activeTab === 'courses' && <Courses />}
-                        {activeTab === 'categories' && <Categories />}
                         {activeTab === 'settings' && <Settings />}
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </div>

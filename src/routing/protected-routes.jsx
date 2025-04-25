@@ -23,7 +23,7 @@ const ProtectedRoute = ({
                 return;
             }
             setUser(user);
-            console.log('Fetched user:', user);
+            // console.log('Fetched user:', user);
 
             // Fetch user data from the users table if user exists
             if (user) {
@@ -40,8 +40,8 @@ const ProtectedRoute = ({
                 }
 
                 setUserRole(userData.role);
-                console.log('Fetched user data:', userData);
-                console.log('Fetched user role:', userData.role);
+                // console.log('Fetched user data:', userData);
+                // console.log('Fetched user role:', userData.role);
             }
             setLoading(false);
         };

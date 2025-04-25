@@ -32,8 +32,6 @@ const Dashboard = () => {
             if(!user) {
                 toast.error('failed to fetch user')
                 navigate(ROUTES.INSTRUCTOR.HOME)
-            } else {
-                console.log('Fetched user data2:', user);
             }
 
             // get instructor details based on auth user
@@ -43,13 +41,13 @@ const Dashboard = () => {
             .eq('auth_id', user.id)
             .single();
             
-            console.log('Fetched instructor data:', instructor);
+            // console.log('Fetched instructor data:', instructor);
             if(instError) {
                 toast.error('Failed to fetch instructor data');
                 console.error('failed to get instructor data:', instError);
             } else {
                 setInstructor(instructor);
-                console.log('Fetched instructor data:', instructor);
+                // console.log('Fetched instructor data:', instructor);
             }
         }
 

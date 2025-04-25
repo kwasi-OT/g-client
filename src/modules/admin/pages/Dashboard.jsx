@@ -142,7 +142,7 @@ const Dashboard = () => {
                             {activeTab === 'dashboard' && 'Welcome back, ' + instructor?.first_name + '!'}
                             {activeTab === 'settings' && 'Settings'}
                             {activeTab === 'students' && 'Students'}
-                            {activeTab === 'courses' && 'Courses'}
+                            {activeTab === 'courses' && 'My Courses'}
                             {activeTab === 'finance' && 'Finance'}
                         </h2>
                     </div>

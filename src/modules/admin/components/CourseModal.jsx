@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../../../server/supabaseClient';
 import { toast } from 'react-toastify';
 import {
@@ -10,6 +10,7 @@ import {
     FaTimes
 } from 'react-icons/fa';
 import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
 
 const CourseModal = ({ 
     isOpen, 
@@ -24,22 +25,38 @@ const CourseModal = ({
         price: '',
         requirements: '',
         category_id: '',
+        sub_category_id: '',
         table_of_contents: '',
         media: []
     });
     const [categories, setCategories] = useState([]);
+    const [subCategories, setSubCategories] = useState([]);
     const [loading, setLoading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState({});
     const [previewMode, setPreviewMode] = useState(false);
 
     useEffect(() => {
-        // Fetch categories
+        // Fetch categories and subcategories
         const fetchCategories = async () => {
             const { data, error } = await supabase
                 .from('categories')
                 .select('*');
             
             if (data) setCategories(data);
+            if (error) {
+                toast.error('Failed to fetch categories');
+                console.error('Failed to fetch categories', error);
+            }
+
+            const { data: subCategoriesData, error: subCategoriesError } = await supabase
+                .from('sub_categories')
+                .select('*');
+            
+            if (subCategoriesData) setSubCategories(subCategoriesData);
+            if (subCategoriesError) {
+                toast.error('Failed to fetch subcategories');
+                console.error('Failed to fetch subcategories', subCategoriesError);
+            }
         };
 
         // Populate form if editing existing course
@@ -80,7 +97,7 @@ const CourseModal = ({
                     [file.name]: 0
                 }));
 
-                const { data, error } = await supabase.storage
+                const { error } = await supabase.storage
                     .from('gclient-store')
                     .upload(filePath, file);
 
@@ -113,6 +130,10 @@ const CourseModal = ({
             ]
         }));
     };
+
+    if (uploadProgress) {
+        <p>Uploading</p>
+    }
 
     const removeFile = (fileToRemove) => {
         setFormData(prev => ({
@@ -199,6 +220,8 @@ const CourseModal = ({
                 {previewMode ? (
                     <div className="preview-section">
                         <h3 className="text-xl font-semibold mb-4">{formData.title}</h3>
+                        <p>{formData.category_id}</p>
+                        <p>{formData.sub_category_id}</p>
                         <p className="mb-4">{formData.description}</p>
                         
                         <div className="mb-4">
@@ -278,6 +301,26 @@ const CourseModal = ({
                                         value={category.id}
                                     >
                                         {category.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="mb-4">
+                            <label className="block mb-2">Sub Category</label>
+                            <select
+                                name="sub_category_id"
+                                value={formData.sub_category_id}
+                                onChange={handleChange}
+                                className="w-full border rounded p-2"
+                                required
+                            >
+                                <option value="">Select Sub Category</option>
+                                {subCategories.map(subCategory => (
+                                    <option 
+                                        key={subCategory.id} 
+                                        value={subCategory.id}
+                                    >
+                                        {subCategory.name}
                                     </option>
                                 ))}
                             </select>
@@ -465,6 +508,13 @@ const CourseModal = ({
         //     </div>
         // </div>
     );
+};
+
+CourseModal.propTypes = {
+    isOpen: PropTypes.bool,
+    onClose: PropTypes.func,
+    courseData: PropTypes.object,
+    onSubmit: PropTypes.func
 };
 
 export default CourseModal;
